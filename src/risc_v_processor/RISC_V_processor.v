@@ -21,12 +21,13 @@ module RISC_V_processor
 	input [31:0] received_data,
 
 	output memwrite,
+	output memread,
 	output [31:0] writedata,
 	output [31:0] relative_address,
 	output [31:0] aluresultout
 );
 
-wire clk_wire;
+wire clk_wire = clk;
 //******wire decl.**************************************************/
 // Se agregaron por separado señales de control para las instrucciones branch.
 // Esto a fin de poderlas utilizar en conjunto con una compuerta AND con el valor zero
@@ -39,69 +40,32 @@ wire brancheq_wire;
 wire branchlt_wire;
 wire branchge_wire;
 //-------------------
-wire pcwrite_wire;
-wire [3:0] aluop_wire;
-//wire memwrite;
-wire memread;
-wire memtoreg;
-// Señal utilizada en el MUX PC2 - JUMP, activa si la instruccion siendo leida es j jal
-wire jump;
-wire alusrc_wire;
+
 wire regwrite_wire;
-wire [2:0]immsrc_wire;
-wire addrsrc_wire;
 wire memwrite_wire;
-wire iren_wire;
-wire [1:0]resultsrc_wire;
-wire [1:0]alusrca_wire;
-wire [1:0]alusrcb_wire;
 
-//alu control
-wire [3:0] state_wire;
-//mux
-wire [15:0] mux_immmediate_offset_wire;
-wire [31:0] mux_jal_wire;
-wire [31:0] pctobranch_wire;
-wire [31:0] mux_pc4_branch_wire;
-wire [31:0] mux_pc_jump_wire;
-wire [31:0] mux_pcjump_jr_wire;
-wire [4:0]  writeregister_wire;
-wire [4:0]  ritype_rajal_wire;
-wire [31:0] readdata2orinmmediate_wire;
-wire [31:0] datamemory_aluresult;
-wire [31:0] memaddress_mux_reg;
-wire [31:0] a_mux_wire;
-wire [31:0] b_mux_wire;
-//adder
-wire [31:0] pc_4_wire;
-wire [31:0] jump_address_fix_wire;
-//divider
-wire [15:0] actual_offset_wire;
+wire branch_pc_mux_wire;
 
-//registers
+wire [31:0 ]immediateextend_wire;
+
 wire [31:0] pc_wire;
-wire [31:0] instruction_wire;
-wire [31:0] reg_instruction_wire;
-wire [31:0] datamemory_rd_wire;
+
+wire [31:0] reg_instruction_wire = received_data;
+
 wire [31:0] readdata1_wire;
 wire [31:0] readdata2_wire;
-wire [31:0] aluout_register_wire;
-wire [31:0] memdata_register_wire;
-wire [31:0] a_register_wire;
-wire [31:0] b_register_wire;
-wire [31:0] old_pc_wire;
-//extend
-wire [31:0] immediateextend_wire;
 
-//alu
-wire zero_wire;
-wire alessb_wire;
 wire [31:0] aluresult_wire;
-wire [31:0] aluaut_mux_wire;
 
-assign clk_wire = clk;
-assign instruction_wire = received_data;
-assign datamemory_rd_wire = received_data;
+wire [31:0] aluout_mux_wire;
+
+wire [31:0] b_mux_wire;
+
+wire [3:0] aluop_wire;
+
+wire [3:0] alu_control_wire;
+
+wire memtoreg_wire;
 
 //******************************************************************/
 //******control units***********************************************/
@@ -109,41 +73,117 @@ control
 controlunit
 (
 	// input
-	.clk(clk_wire),
-	.rst(reset),
 	.op(reg_instruction_wire[6:0]),
 	// Para identificar las instrucciones JR, asi como para activar offset cuando ocurre SW y LW
 	// no basta con el codigo de operacion, pues las instrucciones R por ejemplo no se diferencian por opcode (todas 00).
 	// Sino que se utiliza func en descripciones de compuertas logicas para tener el control correcto de dichas señales.
+	
+	// output
+	.beq_out(brancheq_wire),
+	.bne_out(branchne_wire),
+	.blt_out(branchlt_wire),
+	.bge_out(branchge_wire),
+	.alusrc(alusrc_wire),
+	.memtoreg(memtoreg_wire),
+	.regwrite(regwrite_wire),
+	.memread(memread_wire),
+	.memwrite(memwrite_wire),
+	.aluop(aluop_wire)
+);
+
+alucontrol
+alu_control
+(
+	.aluop(aluop_wire),
 	.func3(reg_instruction_wire[14:12]),
 	.func7(reg_instruction_wire[31:25]),
 	
-	// output
-	.controlvalues({
-		brancheq_wire,
-		branchne_wire,
-		branchlt_wire,
-		branchge_wire,
-		pcwrite_wire,
-		immsrc_wire,
-		addrsrc_wire,
-		memwrite_wire,
-		iren_wire,
-		resultsrc_wire,
-		alusrca_wire,
-		alusrcb_wire,
-		regwrite_wire,
-		aluop_wire
-	})
+	.aluoperation(alu_control_wire)
+
 );
 
 //******************************************************************/
 //******multiplexer*************************************************/
 
+multiplexer2to1
+#(
+	.nbits(32)
+)
+branch_pc_mux
+(
+	.selector(
+		(zero_wire & (brancheq_wire | branchge_wire)) |
+		(~zero_wire & branchne_wire) |
+		(alessb_wire & branchlt_wire) |
+		(~alessb_wire & branchge_wire)
+	),
+	.mux_data0(4 + pc_wire),
+	.mux_data1(immediateextend_wire + pc_wire),
+	
+	.mux_output(branch_pc_mux_wire)
+
+);
+
+multiplexer2to1
+#(
+	.nbits(32)
+)
+b_mux
+(
+	.selector(alusrc_wire),
+	.mux_data0(readdata2_wire),
+	.mux_data1(immediateextend_wire),
+	
+	.mux_output(b_mux_wire)
+
+);
+
+multiplexer2to1
+#(
+	.nbits(32)
+)
+aluout_mux
+(
+	.selector(memtoreg_wire),
+	.mux_data0(aluresult_wire),
+	.mux_data1(received_data),
+	
+	.mux_output(aluout_mux_wire)
+
+);
 
 //******************************************************************/
 //******registers****************************************************/
+pc_register
+#(
+	.n(32)
+)
+pc
+(
+	.clk(clk_wire),
+	.reset(reset),
+	.enable(1'b1),
+	.newpc(branch_pc_mux_wire),
+	
+	
+	.pcvalue(pc_wire)
+);
 
+registerfile
+register_file
+(
+	.clk(clk_wire),
+	.reset(reset),
+	.regwrite(regwrite_wire),
+	.writeregister(reg_instruction_wire[11:7]),
+	.readregister1(reg_instruction_wire[19:15]),
+	.readregister2(reg_instruction_wire[24:20]),
+	.writedata(aluout_mux_wire),
+	
+	.readdata1(readdata1_wire),
+	.readdata2(readdata2_wire)
+
+);
 
 //******************************************************************/
 //******extend*******************************************************/
@@ -151,7 +191,6 @@ signextend
 signextendforconstants
 (   
 	.datainput(reg_instruction_wire),
-	.select(immsrc_wire),
 	.signextendoutput(immediateextend_wire)
 );
 
@@ -161,8 +200,8 @@ signextendforconstants
 alu
 arithmeticlogicunit 
 (
-	.aluoperation(aluop_wire),
-	.a(a_mux_wire),
+	.aluoperation(alu_control_wire),
+	.a(readdata1_wire),
 	.b(b_mux_wire),
 	
 	.zero(zero_wire),
@@ -177,9 +216,10 @@ arithmeticlogicunit
 //******************************************************************/
 //*assign section***************************************************/
 
+assign memread = memread_wire;
 assign memwrite = memwrite_wire;
-assign writedata = b_register_wire;
-assign relative_address = memaddress_mux_reg;
-assign aluresultout = aluaut_mux_wire;
+//assign writedata = b_register_wire;
+assign relative_address = pc_wire;
+assign aluresultout = aluresult_wire;
 
 endmodule

@@ -25,31 +25,40 @@ module alucontrol
 
 // r aluop = 111 from controlunit
 // add, sub, or, and, nor, sll, srl, jr 
-localparam r_type_add    = 13'b111_10_0000; // funct = 20 hex
-localparam r_type_sub    = 13'b111_10_0010; // funct = 22 hex
-localparam r_type_or     = 13'b111_10_0101; // funct = 25 hex
-localparam r_type_and    = 13'b111_10_0100; // funct = 24 hex
-localparam r_type_nor    = 13'b111_10_0111; // funct = 27 hex
-localparam r_type_sll    = 13'b111_00_0000; // funct = 00 hex
-localparam r_type_srl    = 13'b111_00_0010; // funct = 02 hex
-localparam r_type_jr     = 13'b111_00_1000; // funct = 08 hex
-localparam r_type_mul    = 13'b111_00_1000; // funct = 08 hex
+localparam r_type_add    = 13'b111_000_0000000; // funct = 20 hex
+localparam r_type_sub    = 13'b111_000_0000010; // funct = 22 hex
+localparam r_type_xor    = 13'b111_100_0000000; // funct = 25 hex
+localparam r_type_or     = 13'b111_110_0000000; // funct = 24 hex
+localparam r_type_and    = 13'b111_111_0000000; // funct = 27 hex
+localparam r_type_sll    = 13'b111_001_0000000; // funct = 00 hex
+localparam r_type_srl    = 13'b111_101_0000000; // funct = 02 hex
+localparam r_type_slt    = 13'b111_000_0000000; // funct = 08 hex
+localparam r_type_mul    = 13'b111_000_0000000; // funct = 08 hex
 
 // jump j, jal 
 // no aplican a la alu
 
-localparam i_type_addi   = 13'b000_xxx_xxx; 
-localparam i_type_ori    = 13'b101_xxx_xxx;
-localparam i_type_andi   = 13'b001_xxx_xxx;
-localparam i_type_lui    = 13'b100_xxx_xxx;
+localparam i_type_addi   = 13'b000_000_xxxxxxx; 
+localparam i_type_xori   = 13'b101_100_xxxxxxx;
+localparam i_type_ori    = 13'b001_110_xxxxxxx;
+localparam i_type_andi   = 13'b100_111_xxxxxxx;
+localparam i_type_slli   = 13'b100_001_0000000;
+localparam i_type_srli   = 13'b100_101_0000000;
+localparam i_type_slti   = 13'b100_010_xxxxxxx;
 
-localparam i_type_beq    = 13'b010_xxx_xxx;
-localparam i_type_bneq   = 13'b011_xxx_xxx;
+localparam i_type_beq    = 13'b010_000_xxxxxxx;
+localparam i_type_bne    = 13'b010_001_xxxxxxx;
+localparam i_type_blt    = 13'b010_100_xxxxxxx;
+localparam i_type_bge    = 13'b010_101_xxxxxxx;
 
-localparam i_type_lw     = 13'b000_xxx_xxx; //usan add
-localparam i_type_sw     = 13'b000_xxx_xxx; //usan add
+localparam i_type_lw     = 13'b000_010_xxxxxxx; //usan add
+localparam s_type_sw     = 13'b000_010_xxxxxxx; //usan add
 
+localparam j_type_jal     = 13'b000_010_xxxxxxx; 
+localparam i_type_jalr    = 13'b000_010_xxxxxxx; 
 
+localparam u_type_lui     = 13'b000_010_xxxxxxx; 
+localparam u_type_auipc   = 13'b000_010_xxxxxxx; 
 
 
 reg [3:0] alucontrolvalues;
@@ -59,29 +68,6 @@ assign selector = {aluop, func3, func7};
 
 always@(selector)begin
 	casex(selector)
-		
-		// add, sub, or, and, nor, sll, srl, jr 
-		r_type_add:    	alucontrolvalues = 4'b0000;
-		r_type_and: 		alucontrolvalues = 4'b0001;
-		r_type_nor: 		alucontrolvalues = 4'b0011;
-		r_type_or :  		alucontrolvalues = 4'b0100;
-		r_type_sub :  		alucontrolvalues = 4'b0111;
-		
-		r_type_sll:			alucontrolvalues = 4'b0101;
-		r_type_srl:			alucontrolvalues = 4'b0110;
-		
-		//addi, ori, andi, lui, lw, sw, beq, bne
-		i_type_addi:		alucontrolvalues = 4'b0000;
-		i_type_andi: 		alucontrolvalues = 4'b0001;
-		i_type_lui : 		alucontrolvalues = 4'b0010;
-		i_type_ori : 		alucontrolvalues = 4'b0100;
-		
-		i_type_lw : 		alucontrolvalues = 4'b0000; // add r[rs]+signextimm
-		i_type_sw : 		alucontrolvalues = 4'b0000; // add r[rs]+signextimm
-		
-		i_type_beq : 		alucontrolvalues = 4'b0111; // sub r[rs]-r[rt]	
-		i_type_bneq:		alucontrolvalues = 4'b0111; // sub r[rs]-r[rt]	
-				
 				
 		default: alucontrolvalues = 4'b1111;
 	endcase

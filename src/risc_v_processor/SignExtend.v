@@ -14,9 +14,10 @@
 module signextend
 (   
 	input [31:0]  datainput,
-	input [2:0]   select,
 	output[31:0]  signextendoutput
 );
+
+reg [2:0] select;
 
 localparam i_type_imm = 3'h0;
 localparam s_type_imm = 3'h1;
@@ -26,7 +27,20 @@ localparam j_type_imm = 3'h4;
 
 reg [31:0] signextendresult;
 
-always@(select, datainput) begin
+always@(*) begin
+   case(datainput[6:0])
+      7'b0110011: select = i_type_imm;
+      7'b0000011: select = i_type_imm;
+      7'b1100111: select = i_type_imm;
+      7'b0100011: select = s_type_imm;
+      7'b1100011: select = b_type_imm;
+      7'b0110111: select = u_type_imm;
+      7'b0010111: select = u_type_imm;
+      7'b1101111: select = j_type_imm;
+   endcase
+end
+
+always@(*) begin
    casex(select)
       i_type_imm: begin
          signextendresult = {
