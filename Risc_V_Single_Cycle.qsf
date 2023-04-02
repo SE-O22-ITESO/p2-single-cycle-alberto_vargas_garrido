@@ -54,3 +54,41 @@ set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_symbol
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_signal_integrity
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_boundary_scan
+set_global_assignment -name VERILOG_FILE src/gpio/gpio_top.v
+set_global_assignment -name VERILOG_FILE src/memory_x_controller/top_memory_x.v
+set_global_assignment -name VERILOG_FILE src/memory_x_controller/memory_x_control.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/SignExtend.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/ShiftLeft2.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/RISC_V_processor.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/RegisterFile.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Register_sp.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Register.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/ProgramMemory.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/PC_Register.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/MUXRegisterFile.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Multiplexer4to1.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Multiplexer2to1.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Divider16bits.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Definitions.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/DecoderRegisterFile.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/DataMemory.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Control.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/ANDGate.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/ALU.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Adder32bits.v
+set_global_assignment -name VERILOG_FILE src/uart/uart_top.v
+set_global_assignment -name VERILOG_FILE src/uart/sipo_lsb.v
+set_global_assignment -name VERILOG_FILE src/uart/piso_lsb.v
+set_global_assignment -name VERILOG_FILE src/uart/fsm_uart_tx.v
+set_global_assignment -name VERILOG_FILE src/uart/fsm_uart_rx.v
+set_global_assignment -name VERILOG_FILE src/uart/device_uart_tx.v
+set_global_assignment -name VERILOG_FILE src/uart/device_uart_rx.v
+set_global_assignment -name VERILOG_FILE src/uart/counter.v
+set_global_assignment -name VERILOG_FILE src/uart/clk_div.v
+set_global_assignment -name VERILOG_FILE src/Risc_V_Single_Cycle.v
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
