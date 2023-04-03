@@ -11,8 +11,8 @@ module Risc_V_Single_Cycle
 
 wire [31:0] out_address_wire;
 wire [31:0] out_data_wire;
-wire [31:0] pc_address;
 wire [31:0] data_address;
+wire [31:0] pc_address;
 wire [31:0] instruction_wire;
 wire [31:0] read_data_out_wire;
 wire [31:0] readdata_wire;
@@ -44,10 +44,11 @@ core
     .received_data(read_data_out_wire),
 
     .memwrite(in_write_en),
+	.memread(),
     .writedata(writedata_wire),
     .pc_address(pc_address),
-	.data_address(data_address),
-    .aluresultout()
+	.data_address(data_address)
+    //.aluresultout()
 );
 
 
@@ -92,7 +93,7 @@ datamemory
 top_memory_x
 top_memory_system
 (
-	.in_address(relative_address),
+	.in_address(data_address),
 	.in_data(writedata_wire),
 	.in_write_en(in_write_en),
 	.in_read_data0(32'h00000000),

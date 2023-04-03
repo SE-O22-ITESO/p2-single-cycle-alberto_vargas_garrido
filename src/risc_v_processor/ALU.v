@@ -29,19 +29,19 @@ module alu
 
 // localparam == c define. 
 // no tienen que coindicir con el green sheet de mips
-localparam alu_add = 4'b0000;
-localparam alu_sub = 4'b0001;
-localparam alu_xor = 4'b0010;
-localparam alu_or = 4'b0011;
-localparam alu_and  = 4'b0100;
-localparam i_alu_sll = 4'b0101;
-localparam i_alu_srl = 4'b0110;
-localparam r_alu_sll = 4'b0111;
-localparam r_alu_srl = 4'b1000;
-localparam alu_slt = 4'b1001;
-localparam r_alu_mul = 4'b1010;
+localparam alu_add 		= 4'b0000;
+localparam alu_sub 		= 4'b0001;
+localparam alu_xor 		= 4'b0010;
+localparam alu_or 		= 4'b0011;
+localparam alu_and  	= 4'b0100;
+localparam i_alu_sll 	= 4'b0101;
+localparam i_alu_srl 	= 4'b0110;
+localparam r_alu_sll 	= 4'b0111;
+localparam r_alu_srl 	= 4'b1000;
+localparam alu_slt 		= 4'b1001;
+localparam r_alu_mul 	= 4'b1010;
    
-   always @ (a or b or aluoperation)
+   always @ (*)
      begin
 		case (aluoperation)
 		  alu_and:

@@ -25,8 +25,8 @@ module RISC_V_processor
 	output memread,
 	output [31:0] data_address,
 	output [31:0] writedata,
-	output [31:0] pc_address,
-	output [31:0] aluresultout
+	output [31:0] pc_address
+	//output [31:0] aluresultout
 );
 
 wire clk_wire = clk;
@@ -69,10 +69,18 @@ wire [3:0] alu_control_wire;
 
 wire [31:0] address_mux_wire;
 
-wire memtoreg_wire;
+wire [31:0] alu_pc_mux_wire;
 
-wire addr_sel_wire;
+wire [1:0]memtoreg_wire;
 
+wire alu_pc_sel_wire;
+
+wire alusrc_wire;
+
+wire memread_wire;
+
+wire zero_wire;
+wire alessb_wire;
 //******************************************************************/
 //******control units***********************************************/
 control
@@ -84,8 +92,8 @@ controlunit
 	// no basta con el codigo de operacion, pues las instrucciones R por ejemplo no se diferencian por opcode (todas 00).
 	// Sino que se utiliza func en descripciones de compuertas logicas para tener el control correcto de dichas señales.
 	
-	// output
-	.addr_sel(addr_sel_wire),
+	// outpu
+	.alu_pc_sel(alu_pc_sel_wire),
 	.beq_out(brancheq_wire),
 	.bne_out(branchne_wire),
 	.blt_out(branchlt_wire),
@@ -135,6 +143,20 @@ multiplexer2to1
 #(
 	.nbits(32)
 )
+alu_pc_mux
+(
+	.selector(alu_pc_sel_wire),
+	.mux_data0(branch_pc_mux_wire),
+	.mux_data1(aluresult_wire),
+	
+	.mux_output(alu_pc_mux_wire)
+
+);
+
+multiplexer2to1
+#(
+	.nbits(32)
+)
 b_mux
 (
 	.selector(alusrc_wire),
@@ -145,7 +167,7 @@ b_mux
 
 );
 
-multiplexer2to1
+multiplexer4to1
 #(
 	.nbits(32)
 )
@@ -154,6 +176,8 @@ aluout_mux
 	.selector(memtoreg_wire),
 	.mux_data0(aluresult_wire),
 	.mux_data1(received_data),
+	.mux_data2(4 + pc_wire),
+	.mux_data3(),
 	
 	.mux_output(aluout_mux_wire)
 
@@ -169,7 +193,7 @@ pc
 	.clk(clk_wire),
 	.reset(reset),
 	.enable(1'b1),
-	.newpc(branch_pc_mux_wire),
+	.newpc(alu_pc_mux_wire),
 	
 	
 	.pcvalue(pc_wire)

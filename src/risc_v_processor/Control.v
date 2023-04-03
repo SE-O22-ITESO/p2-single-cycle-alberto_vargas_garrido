@@ -14,14 +14,15 @@
 module control
 (
 	input [6:0]op, //intr[31-26] opcode mips green card
+	input [2:0]func3,
 	
-	output addr_sel,
+	output alu_pc_sel,
 	output beq_out,
 	output bne_out,
 	output blt_out,
 	output bge_out,
 	output alusrc,
-	output memtoreg,
+	output [1:0]memtoreg,
 	output regwrite,
 	output memread,
 	output memwrite,
@@ -57,20 +58,22 @@ localparam s_type_sw   	= 7'b0100011;
 localparam i_type		= 7'b0010011;
 
 
-reg [13:0] controlvalues;
+reg [10:0] controlvalues;
 
 
 always@(op) begin
 	casex(op)
-		r_type:      	controlvalues = 13'b0_0000_001XX_0111;
-		b_type:			controlvalues = 13'b0_01xx_xxx0x_xxxx;
-		i_type_jalr:	controlvalues = 13'b0_11xx_x1x0x_xxxx;
-		j_type_jal:     controlvalues = 13'b0_0001_01000_0000; 
-		u_type_lui:     controlvalues = 13'b0_0001_01000_0101; 
-		u_type_auipc:   controlvalues = 13'b0_0001_01000_0001;
-		i_type_lw:      controlvalues = 13'b0_0001_01000_0100;
+		r_type:      	controlvalues = 11'b0_0_01_100_0000;
+		b_type:			controlvalues = 11'b0_0_0x_xx0_0011;
+		i_type_jalr:	controlvalues = 11'b1_1_10_1x0_1000;
+		j_type_jal:     controlvalues = 11'b0_1_10_000_0110; 
+		u_type_lui:     controlvalues = 11'b0_0_01_000_0100; 
+		u_type_auipc:   controlvalues = 11'b0_0_01_000_0101;
+		i_type_lw:      controlvalues = 11'b0_1_01_110_0111;
+		s_type_sw:		controlvalues = 11'b0_1_01_111_0010;
+		i_type:			controlvalues = 11'b0_1_00_1x0_0001;
 		default:
-			controlvalues= 13'b0_0000_0000_0000; 
+			controlvalues= 9'b0000_0000; 
 		endcase
 end
 
@@ -80,18 +83,18 @@ end
 //jr func jr 8 hex & op 00
 //assign jr       = (~func[5]&~func[4]&func[3]&~func[2]&~func[1]&~func[0]&~op[5]&~op[4]&~op[3]&~op[2]&~op[1]&~op[0]); 
 
-assign addr_sel = controlvalues[13];
-assign beq 		= controlvalues[12]; // branch ~zero
-assign bne 		= controlvalues[11]; // branch ~zero
-assign blt 		= controlvalues[10]; // branch ~zero
-assign bge 		= controlvalues[9]; // branch  zero
+assign beq_out 		= (~func3[2]&~func3[1]&~func3[0]) & (op[6]&op[5]&~op[4]&~op[3]&~op[2]&op[1]&op[0]); // branch ~zero
+assign bne_out 		= (~func3[2]&~func3[1]&func3[0]) & (op[6]&op[5]&~op[4]&~op[3]&~op[2]&op[1]&op[0]); // branch ~zero
+assign blt_out 		= (func3[2]&~func3[1]&~func3[0]) & (op[6]&op[5]&~op[4]&~op[3]&~op[2]&op[1]&op[0]); // branch ~zero
+assign bge_out 		= (func3[2]&~func3[1]&func3[0]) & (op[6]&op[5]&~op[4]&~op[3]&~op[2]&op[1]&op[0]); // branch  zero
 
 //assign jal		= controlvalues[12];
 
 //assign jump		= controlvalues[11];
 //assign regdst   = controlvalues[10];// rom-mux-reg : typei 0 -> rt instr[20:16], typer 1 -> rd instr[15:11]
-assign alusrc   = controlvalues[8]; // reg-mux-alu : 0 -> readdata2, 1 -> immediate signextended
-assign memtoreg = controlvalues[7]; // data-mux-reg: 0 -> aluresult, 1 -> readdata
+assign alu_pc_sel = controlvalues[10];
+assign alusrc   = controlvalues[9]; // reg-mux-alu : 0 -> readdata2, 1 -> immediate signextended
+assign memtoreg = controlvalues[8:7]; // data-mux-reg: 0 -> aluresult, 1 -> readdata
 
 assign regwrite = controlvalues[6]; // enable write: writereg (registerfile)
 assign memread  = controlvalues[5]; // enable out readdata  (datamemory)

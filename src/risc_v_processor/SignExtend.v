@@ -37,6 +37,7 @@ always@(*) begin
       7'b0110111: select = u_type_imm;
       7'b0010111: select = u_type_imm;
       7'b1101111: select = j_type_imm;
+		default: select = 3'b111;
    endcase
 end
 
