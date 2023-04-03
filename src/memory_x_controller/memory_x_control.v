@@ -12,12 +12,12 @@ module memory_x_control
 );
 
 always@(address, in_write_en) begin
-    if((address >= 'h00400000) && (address < 'h10000000)) begin
-        data_sel = 2'h0;
-        address_sel = 2'h0;
-        out_write_en = 3'b000;
-	end
-    else if((address <= 'h7fffeffc) && (address > 'h10011000)) begin
+    // if((address >= 'h00400000) && (address < 'h10000000)) begin
+    //     data_sel = 2'h0;
+    //     address_sel = 2'h0;
+    //     out_write_en = 3'b000;
+	// end
+    if((address <= 'h7fffeffc) && (address > 'h10011000)) begin
         data_sel = 2'h1;
         address_sel = 2'h1;
         if(in_write_en)
@@ -27,22 +27,22 @@ always@(address, in_write_en) begin
     end
     else if(address == 'h10010024) begin
         data_sel = 2'h0;
-        address_sel = 2'h0;
+        address_sel = 2'hx;
         out_write_en = 3'b010;
     end
     else if(address == 'h10010028) begin
         data_sel = 2'h2;
-        address_sel = 2'h0;
+        address_sel = 2'hx;
         out_write_en = 3'b000;
     end
     else if(address == 'h1001002C) begin // rx uart
         data_sel = 2'h3;
-        address_sel = 2'h0;
+        address_sel = 2'hx;
         out_write_en = 3'b000;
     end
     else if(address == 'h10010030) begin // tx uart
         data_sel = 2'h0;
-        address_sel = 2'h0;
+        address_sel = 2'hx;
         out_write_en = 3'b100;
     end
     else begin

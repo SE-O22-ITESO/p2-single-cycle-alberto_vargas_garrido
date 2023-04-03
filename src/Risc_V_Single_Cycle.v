@@ -11,7 +11,8 @@ module Risc_V_Single_Cycle
 
 wire [31:0] out_address_wire;
 wire [31:0] out_data_wire;
-wire [31:0] relative_address;
+wire [31:0] pc_address;
+wire [31:0] data_address;
 wire [31:0] instruction_wire;
 wire [31:0] read_data_out_wire;
 wire [31:0] readdata_wire;
@@ -39,11 +40,13 @@ core
 (
     .clk(clk_n),
     .reset(rst_n),
+	.intruction(instruction_wire),
     .received_data(read_data_out_wire),
 
     .memwrite(in_write_en),
     .writedata(writedata_wire),
-    .relative_address(relative_address),
+    .pc_address(pc_address),
+	.data_address(data_address),
     .aluresultout()
 );
 
@@ -61,7 +64,7 @@ programmemory
 )
 romprogrammemory
 (
-	.address(out_address_wire),
+	.address((pc_address - 'h00400000) >> 2),
 
 	.instruction(instruction_wire)
 );
@@ -92,7 +95,7 @@ top_memory_system
 	.in_address(relative_address),
 	.in_data(writedata_wire),
 	.in_write_en(in_write_en),
-	.in_read_data0(instruction_wire),
+	.in_read_data0(32'h00000000),
 	.in_read_data1(readdata_wire),
 	.in_read_data2({24'h000000, gpio_port_read_out_wire}),
 	.in_read_data3({21'h000000, finished_tx_wire, parity_error_wire, rx_interrupt_wire, uart_received_data_wire}),

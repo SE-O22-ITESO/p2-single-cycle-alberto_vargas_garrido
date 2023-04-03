@@ -35,10 +35,10 @@ multiplexer4to1
 mux_new_address
 (
 	.selector(address_sel),
-	.mux_data0((in_address - 'h00400000) >> 2),
+	.mux_data0(32'h00000000),
 	.mux_data1(((in_address - 'h7fffeefc) >> 2)-1),
-	.mux_data2(32'h0000),
-	.mux_data3(32'h0000),
+	.mux_data2(32'h00000000),
+	.mux_data3(32'h00000000),
 
 	.mux_output(new_address_wire)
 

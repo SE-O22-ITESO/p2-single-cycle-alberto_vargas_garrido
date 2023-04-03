@@ -54,11 +54,11 @@ localparam i_type_bge    = 13'b010_101_xxxxxxx;
 localparam i_type_lw     = 13'b000_010_xxxxxxx; //usan add
 localparam s_type_sw     = 13'b000_010_xxxxxxx; //usan add
 
-localparam j_type_jal     = 13'b000_010_xxxxxxx; 
-localparam i_type_jalr    = 13'b000_010_xxxxxxx; 
+localparam j_type_jal    = 13'b000_010_xxxxxxx; 
+localparam i_type_jalr   = 13'b000_010_xxxxxxx; 
 
-localparam u_type_lui     = 13'b000_010_xxxxxxx; 
-localparam u_type_auipc   = 13'b000_010_xxxxxxx; 
+localparam u_type_lui    = 13'b000_010_xxxxxxx; 
+localparam u_type_auipc  = 13'b000_010_xxxxxxx; 
 
 
 reg [3:0] alucontrolvalues;
@@ -68,7 +68,32 @@ assign selector = {aluop, func3, func7};
 
 always@(selector)begin
 	casex(selector)
-				
+		r_type_add: 	alucontrolvalues = 4'b000;
+		r_type_sub: 	alucontrolvalues = 4'b000;
+		r_type_xor: 	alucontrolvalues = 4'b000;
+		r_type_or: 		alucontrolvalues = 4'b000;
+		r_type_and: 	alucontrolvalues = 4'b000;
+		r_type_sll: 	alucontrolvalues = 4'b000;
+		r_type_srl: 	alucontrolvalues = 4'b000;
+		r_type_slt: 	alucontrolvalues = 4'b000;
+		r_type_mul: 	alucontrolvalues = 4'b000;
+		i_type_addi: 	alucontrolvalues = 4'b000; 
+		i_type_xori: 	alucontrolvalues = 4'b000; 
+		i_type_ori: 	alucontrolvalues = 4'b000;  
+		i_type_andi: 	alucontrolvalues = 4'b000; 
+		i_type_slli: 	alucontrolvalues = 4'b000; 
+		i_type_srli: 	alucontrolvalues = 4'b000; 
+		i_type_slti: 	alucontrolvalues = 4'b000; 
+		i_type_beq: 	alucontrolvalues = 4'b000;  
+		i_type_bne: 	alucontrolvalues = 4'b000;  
+		i_type_blt: 	alucontrolvalues = 4'b000;  
+		i_type_bge: 	alucontrolvalues = 4'b000;  
+		i_type_lw: 		alucontrolvalues = 4'b000;   
+		s_type_sw: 		alucontrolvalues = 4'b000;   
+		j_type_jal: 	alucontrolvalues = 4'b000;  
+		i_type_jalr: 	alucontrolvalues = 4'b000; 
+		u_type_lui: 	alucontrolvalues = 4'b000;  
+		u_type_auipc: 	alucontrolvalues = 4'b000;
 		default: alucontrolvalues = 4'b1111;
 	endcase
 end

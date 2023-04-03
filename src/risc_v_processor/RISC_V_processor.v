@@ -18,12 +18,14 @@ module RISC_V_processor
 )(
 	input clk,
 	input reset,
+	input [31:0] intruction,
 	input [31:0] received_data,
 
 	output memwrite,
 	output memread,
+	output [31:0] data_address,
 	output [31:0] writedata,
-	output [31:0] relative_address,
+	output [31:0] pc_address,
 	output [31:0] aluresultout
 );
 
@@ -50,7 +52,7 @@ wire [31:0 ]immediateextend_wire;
 
 wire [31:0] pc_wire;
 
-wire [31:0] reg_instruction_wire = received_data;
+wire [31:0] reg_instruction_wire = intruction;
 
 wire [31:0] readdata1_wire;
 wire [31:0] readdata2_wire;
@@ -65,7 +67,11 @@ wire [3:0] aluop_wire;
 
 wire [3:0] alu_control_wire;
 
+wire [31:0] address_mux_wire;
+
 wire memtoreg_wire;
+
+wire addr_sel_wire;
 
 //******************************************************************/
 //******control units***********************************************/
@@ -79,6 +85,7 @@ controlunit
 	// Sino que se utiliza func en descripciones de compuertas logicas para tener el control correcto de dichas señales.
 	
 	// output
+	.addr_sel(addr_sel_wire),
 	.beq_out(brancheq_wire),
 	.bne_out(branchne_wire),
 	.blt_out(branchlt_wire),
@@ -151,7 +158,6 @@ aluout_mux
 	.mux_output(aluout_mux_wire)
 
 );
-
 //******************************************************************/
 //******registers****************************************************/
 pc_register
@@ -218,8 +224,8 @@ arithmeticlogicunit
 
 assign memread = memread_wire;
 assign memwrite = memwrite_wire;
-//assign writedata = b_register_wire;
-assign relative_address = pc_wire;
-assign aluresultout = aluresult_wire;
+assign writedata = readdata2_wire;
+assign pc_address = pc_wire;
+assign data_address = aluresult_wire;
 
 endmodule
