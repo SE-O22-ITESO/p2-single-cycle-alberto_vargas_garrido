@@ -4,6 +4,7 @@ vlog -vlog01compat -work work ../src/risc_v_processor/RISC_V_processor.v
 vlog -vlog01compat -work work ./RISC_V_processor_TB.v
 vlog -vlog01compat -work work ../src/risc_v_processor/Adder32bits.v
 vlog -vlog01compat -work work ../src/risc_v_processor/ALU.v
+vlog -vlog01compat -work work ../src/risc_v_processor/ALUControl.v
 vlog -vlog01compat -work work ../src/risc_v_processor/ANDGate.v
 vlog -vlog01compat -work work ../src/risc_v_processor/Control.v
 vlog -vlog01compat -work work ../src/risc_v_processor/DataMemory.v
@@ -18,7 +19,7 @@ vlog -vlog01compat -work work ../src/risc_v_processor/Register.v
 vlog -vlog01compat -work work ../src/risc_v_processor/RegisterFile.v
 vlog -vlog01compat -work work ../src/risc_v_processor/ShiftLeft2.v
 vlog -vlog01compat -work work ../src/risc_v_processor/SignExtend.v
-vlog -vlog01compat -work work ../src/RISC_V_Multi_Cycle.v
+vlog -vlog01compat -work work ../src/Risc_V_Single_Cycle.v
 vlog -vlog01compat -work work ../src/gpio/gpio_top.v
 vlog -vlog01compat -work work ../src/risc_v_processor/Register_sp.v
 

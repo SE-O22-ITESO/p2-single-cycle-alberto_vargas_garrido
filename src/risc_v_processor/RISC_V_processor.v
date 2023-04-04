@@ -46,7 +46,7 @@ wire branchge_wire;
 wire regwrite_wire;
 wire memwrite_wire;
 
-wire branch_pc_mux_wire;
+wire [31:0] branch_pc_mux_wire;
 
 wire [31:0 ]immediateextend_wire;
 
@@ -61,21 +61,26 @@ wire [31:0] aluresult_wire;
 
 wire [31:0] aluout_mux_wire;
 
+wire [31:0] a_mux_wire;
 wire [31:0] b_mux_wire;
 
 wire [3:0] aluop_wire;
 
 wire [3:0] alu_control_wire;
 
-wire [31:0] address_mux_wire;
-
 wire [31:0] alu_pc_mux_wire;
+
+wire [31:0] address_mux_wire;
+wire address_sel_wire;
 
 wire [1:0]memtoreg_wire;
 
 wire alu_pc_sel_wire;
 
-wire alusrc_wire;
+wire jal_wire;
+
+wire a_alusrc_wire;
+wire [1:0] b_alusrc_wire;
 
 wire memread_wire;
 
@@ -88,17 +93,21 @@ controlunit
 (
 	// input
 	.op(reg_instruction_wire[6:0]),
+	.func3(reg_instruction_wire[14:12]),
 	// Para identificar las instrucciones JR, asi como para activar offset cuando ocurre SW y LW
 	// no basta con el codigo de operacion, pues las instrucciones R por ejemplo no se diferencian por opcode (todas 00).
 	// Sino que se utiliza func en descripciones de compuertas logicas para tener el control correcto de dichas señales.
 	
-	// outpu
+	// output
+	.address_sel(address_sel_wire),
+	.jal(jal_wire),
 	.alu_pc_sel(alu_pc_sel_wire),
 	.beq_out(brancheq_wire),
 	.bne_out(branchne_wire),
 	.blt_out(branchlt_wire),
 	.bge_out(branchge_wire),
-	.alusrc(alusrc_wire),
+	.a_alusrc(a_alusrc_wire),
+	.b_alusrc(b_alusrc_wire),
 	.memtoreg(memtoreg_wire),
 	.regwrite(regwrite_wire),
 	.memread(memread_wire),
@@ -127,10 +136,11 @@ multiplexer2to1
 branch_pc_mux
 (
 	.selector(
-		(zero_wire & (brancheq_wire | branchge_wire)) |
+		((zero_wire & (brancheq_wire | branchge_wire)) |
 		(~zero_wire & branchne_wire) |
 		(alessb_wire & branchlt_wire) |
-		(~alessb_wire & branchge_wire)
+		(~alessb_wire & branchge_wire)) |
+		jal_wire
 	),
 	.mux_data0(4 + pc_wire),
 	.mux_data1(immediateextend_wire + pc_wire),
@@ -157,12 +167,28 @@ multiplexer2to1
 #(
 	.nbits(32)
 )
+a_mux
+(
+	.selector(a_alusrc_wire),
+	.mux_data0(readdata1_wire),
+	.mux_data1(32'h00000000),
+	
+	.mux_output(a_mux_wire)
+
+);
+
+multiplexer4to1
+#(
+	.nbits(32)
+)
 b_mux
 (
-	.selector(alusrc_wire),
+	.selector(b_alusrc_wire),
 	.mux_data0(readdata2_wire),
 	.mux_data1(immediateextend_wire),
-	
+	.mux_data2(immediateextend_wire + pc_wire),
+	.mux_data3(32'h00000000),
+
 	.mux_output(b_mux_wire)
 
 );
@@ -177,9 +203,23 @@ aluout_mux
 	.mux_data0(aluresult_wire),
 	.mux_data1(received_data),
 	.mux_data2(4 + pc_wire),
-	.mux_data3(),
+	.mux_data3(32'h00000000),
 	
 	.mux_output(aluout_mux_wire)
+
+);
+
+multiplexer2to1
+#(
+	.nbits(32)
+)
+address_mux
+(
+	.selector(address_sel_wire),
+	.mux_data0(32'h00000000),
+	.mux_data1(aluresult_wire),
+	
+	.mux_output(address_mux_wire)
 
 );
 //******************************************************************/
@@ -231,7 +271,7 @@ alu
 arithmeticlogicunit 
 (
 	.aluoperation(alu_control_wire),
-	.a(readdata1_wire),
+	.a(a_mux_wire),
 	.b(b_mux_wire),
 	
 	.zero(zero_wire),
@@ -250,6 +290,6 @@ assign memread = memread_wire;
 assign memwrite = memwrite_wire;
 assign writedata = readdata2_wire;
 assign pc_address = pc_wire;
-assign data_address = aluresult_wire;
+assign data_address = address_mux_wire;
 
 endmodule

@@ -29,7 +29,7 @@ reg [31:0] signextendresult;
 
 always@(*) begin
    case(datainput[6:0])
-      7'b0110011: select = i_type_imm;
+      7'b0010011: select = i_type_imm;
       7'b0000011: select = i_type_imm;
       7'b1100111: select = i_type_imm;
       7'b0100011: select = s_type_imm;

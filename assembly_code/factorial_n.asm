@@ -28,14 +28,26 @@ Retreive:
 Transmision:
 	addi t3, t3, -1
 	bne t3, zero, Transmision
-	li t3, 10400
 	
 	addi t4, t2, -1
 	mul t5, t4, s8
 	srl t6 , a2, t5
 	andi t6, t6, 0xff
 	sw t6, (a0)
+Wait3:
+	lw t0, -4(a0)
+	andi t0, t0, 0x400
+	srli t0, t0, 10
+	beq t0, zero, Wait3
+Wait4:	
+	lw t0, -4(a0)
+	andi t0, t0, 0x400
+	srli t0, t0, 10
+	bne t0, zero, Wait4
+	li t3, 10400
+	
 	addi t2, t2, -1
+	
 	bne t2, zero, Transmision
 	jal main
 Factorial:
@@ -55,18 +67,6 @@ recursion:
 	addi sp, sp, 8			# Nos movemos a la posiscion siguinte en memoria del stack
 	jalr zero, ra, 0		# Brincara a donde apunte ra
 exit:
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
 nop
 nop
 nop

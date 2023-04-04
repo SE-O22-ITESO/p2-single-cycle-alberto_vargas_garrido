@@ -33,7 +33,7 @@ localparam r_type_and    = 14'b0000_111_0000000; // funct = 27 hex
 localparam r_type_sll    = 14'b0000_001_0000000; // funct = 00 hex
 localparam r_type_srl    = 14'b0000_101_0000000; // funct = 02 hex
 localparam r_type_slt    = 14'b0000_010_0000000; // funct = 08 hex
-localparam r_type_mul    = 14'b0000_011_0000001; // funct = 08 hex
+localparam r_type_mul    = 14'b0000_000_0000001; // funct = 08 hex
 
 // jump j, jal 
 // no aplican a la alu

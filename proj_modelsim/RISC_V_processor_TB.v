@@ -30,7 +30,7 @@ wire [7:0]	receivedData;
 wire 			rxInterrupt;
 wire 			serialOutputTx;
 
-RISC_V_Multi_Cycle
+Risc_V_Single_Cycle
 top
 (
     .clk(clk),
