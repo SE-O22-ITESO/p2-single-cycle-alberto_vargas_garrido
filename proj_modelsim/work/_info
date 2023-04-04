@@ -287,7 +287,7 @@ n@_opt4
 R5
 R1
 T_opt5
-Z7 !s110 1680603526
+!s110 1680603526
 VDKPRPVZ406^_[6WgKLZlI3
 R2
 =1-000ae431a4f1-642bf986-9670a-db59
@@ -296,534 +296,535 @@ R3
 R4
 n@_opt5
 R5
+R1
 vadder32bits
-Z8 !s110 1680603524
+Z7 !s110 1680603968
 !i10b 1
 !s100 U]UXnUdIOJnn<RRWeGGhW1
 IIlNCgZ4WiAWLVF07UVbKa0
-Z9 d/home/alberto/Documents/Documents/Works/RISC-V/projects/p2/proj_modelsim
-Z10 w1680568710
+Z8 d/home/alberto/Documents/Documents/Works/RISC-V/projects/p2/proj_modelsim
+Z9 w1680568710
 8../src/risc_v_processor/Adder32bits.v
 F../src/risc_v_processor/Adder32bits.v
-!i122 7859
+!i122 7891
 L0 13 16
-Z11 VDg1SIo80bB@j0V0VzS_@n1
-Z12 OL;L;2021.2;73
+Z10 VDg1SIo80bB@j0V0VzS_@n1
+Z11 OL;L;2021.2;73
 r1
 !s85 0
 31
-Z13 !s108 1680603524.000000
+Z12 !s108 1680603968.000000
 !s107 ../src/risc_v_processor/Adder32bits.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/Adder32bits.v|
 !i113 0
-Z14 o-vlog01compat -work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z13 o-vlog01compat -work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
 R4
 valu
-R8
+R7
 !i10b 1
 !s100 lmJWe1K7>1a][AzQg3`A00
 I9]92H:N7=nHcLhzWjk8o41
-R9
-Z15 w1680568712
+R8
+Z14 w1680568712
 8../src/risc_v_processor/ALU.v
 F../src/risc_v_processor/ALU.v
-!i122 7860
+!i122 7892
 L0 20 56
+R10
 R11
-R12
 r1
 !s85 0
 31
-R13
+R12
 !s107 ../src/risc_v_processor/ALU.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/ALU.v|
 !i113 0
-R14
+R13
 R4
 valucontrol
-R8
+R7
 !i10b 1
 !s100 V5ADejKcQIAUaG]dd`5Z82
 IDdo^JHIF99P3Z4FFnN;AG0
-R9
+R8
 w1680595295
 8../src/risc_v_processor/ALUControl.v
 F../src/risc_v_processor/ALUControl.v
-!i122 7861
+!i122 7893
 L0 15 84
+R10
 R11
-R12
 r1
 !s85 0
 31
-R13
+R12
 !s107 ../src/risc_v_processor/ALUControl.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/ALUControl.v|
 !i113 0
-R14
+R13
 R4
 vANDGate
-R8
+R7
 !i10b 1
 !s100 hfkUk_i8WVg^;cQTN;MFo1
 ILbgDK=2F:Nfb1FcbQ3bQ=2
+R8
 R9
-R10
 8../src/risc_v_processor/ANDGate.v
 F../src/risc_v_processor/ANDGate.v
-!i122 7862
+!i122 7894
 L0 13 11
+R10
 R11
-R12
 r1
 !s85 0
 31
-R13
+R12
 !s107 ../src/risc_v_processor/ANDGate.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/ANDGate.v|
 !i113 0
-R14
+R13
 R4
 n@a@n@d@gate
 vclk_div
-Z16 !s110 1680603525
+Z15 !s110 1680603970
 !i10b 1
 !s100 m@a6Xn^>j3[zXdYBMe0DY0
 I1okSaD0RYJXb@GPT`854i0
+R8
 R9
-R10
 8../src/uart/clk_div.v
 F../src/uart/clk_div.v
-!i122 7878
+!i122 7910
 L0 14 65
+R10
 R11
-R12
 r1
 !s85 0
 31
-Z17 !s108 1680603525.000000
+Z16 !s108 1680603970.000000
 !s107 ../src/uart/clk_div.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/uart/clk_div.v|
 !i113 0
-R14
+R13
 R4
 vcontrol
-R8
+Z17 !s110 1680603969
 !i10b 1
 !s100 :YezLPSX=iz[8E>gUZ5bG3
 IfUjkj10^@EO>;dA8d4iJf1
-R9
+R8
 w1680603196
 8../src/risc_v_processor/Control.v
 F../src/risc_v_processor/Control.v
-!i122 7863
+!i122 7895
 L0 14 98
+R10
 R11
-R12
 r1
 !s85 0
 31
-R13
+R12
 !s107 ../src/risc_v_processor/Control.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/Control.v|
 !i113 0
-R14
+R13
 R4
 vcounter
-R7
+R15
 !i10b 1
 !s100 ?e5_1Q[Y`jKGKZbmZjXgj3
 IKZlMIHhN;B5a3X?BmKc6@0
+R8
 R9
-R10
 8../src/uart/counter.v
 F../src/uart/counter.v
-!i122 7883
+!i122 7915
 L0 14 52
+R10
 R11
-R12
 r1
 !s85 0
 31
-Z18 !s108 1680603526.000000
+R16
 !s107 ../src/uart/counter.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/uart/counter.v|
 !i113 0
-R14
+R13
 R4
 vdatamemory
-R8
+R17
 !i10b 1
 !s100 mNASIj=_gjUe3GX__;1fS1
 IBl<F4B0M9XgDfXj5?o<GO1
+R8
 R9
-R10
 8../src/risc_v_processor/DataMemory.v
 F../src/risc_v_processor/DataMemory.v
-!i122 7864
-Z19 L0 13 27
+!i122 7896
+Z18 L0 13 27
+R10
 R11
-R12
 r1
 !s85 0
 31
-R13
+Z19 !s108 1680603969.000000
 !s107 ../src/risc_v_processor/DataMemory.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/DataMemory.v|
 !i113 0
-R14
+R13
 R4
 vdecoderregisterfile
-R8
+R17
 !i10b 1
 !s100 BZFFbj;POLeNKENibJUD?3
 If2oT_Rb6a7GEm84FiAZW92
+R8
 R9
-R10
 8../src/risc_v_processor/DecoderRegisterFile.v
 F../src/risc_v_processor/DecoderRegisterFile.v
-!i122 7865
+!i122 7897
 L0 12 47
+R10
 R11
-R12
 r1
 !s85 0
 31
-R13
+R19
 !s107 ../src/risc_v_processor/DecoderRegisterFile.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/DecoderRegisterFile.v|
 !i113 0
-R14
+R13
 R4
 vdevice_uart_rx
-R7
+R15
 !i10b 1
 !s100 UfAN5oRN?7`fA1TEhPdNS2
 I4coam4T9XKYQSFML3hkQ]2
+R8
 R9
-R10
 8../src/uart/device_uart_rx.v
 F../src/uart/device_uart_rx.v
-!i122 7884
+!i122 7916
 L0 16 168
+R10
 R11
-R12
 r1
 !s85 0
 31
-R18
+R16
 !s107 ../src/uart/device_uart_rx.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/uart/device_uart_rx.v|
 !i113 0
-R14
+R13
 R4
 vdevice_uart_tx
-R7
+R15
 !i10b 1
 !s100 :?>A_79Mgb>oEOk>7:YZz0
 IXJQAj=ELn=e]P`gQFDceb1
+R8
 R9
-R10
 8../src/uart/device_uart_tx.v
 F../src/uart/device_uart_tx.v
-!i122 7885
+!i122 7917
 L0 14 168
+R10
 R11
-R12
 r1
 !s85 0
 31
-R18
+R16
 !s107 ../src/uart/device_uart_tx.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/uart/device_uart_tx.v|
 !i113 0
-R14
+R13
 R4
 vfsm_uart_rx
-R16
+R15
 !i10b 1
 !s100 0NEn4@`E68kdI6_C2XF9:3
 I2O`?=n<o1EB^Uc8JQES0R0
+R8
 R9
-R10
 8../src/uart/fsm_uart_rx.v
 F../src/uart/fsm_uart_rx.v
-!i122 7879
+!i122 7911
 L0 15 230
+R10
 R11
-R12
 r1
 !s85 0
 31
-R17
+R16
 !s107 ../src/uart/fsm_uart_rx.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/uart/fsm_uart_rx.v|
 !i113 0
-R14
+R13
 R4
 vfsm_uart_tx
-R16
+R15
 !i10b 1
 !s100 EBke04k1<VV7G^:Cg0OCA3
 IDPNJUT6<n]N^A^:QJGVaz1
+R8
 R9
-R10
 8../src/uart/fsm_uart_tx.v
 F../src/uart/fsm_uart_tx.v
-!i122 7880
+!i122 7912
 L0 15 179
+R10
 R11
-R12
 r1
 !s85 0
 31
-R17
+R16
 !s107 ../src/uart/fsm_uart_tx.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/uart/fsm_uart_tx.v|
 !i113 0
-R14
+R13
 R4
 vgpio_top
-R16
+R15
 !i10b 1
 !s100 nc5mZ>m[ik:O[hBzH68^o1
 I5I?];@[o:=dcQid8bkXjf3
+R8
 R9
-R10
 8../src/gpio/gpio_top.v
 F../src/gpio/gpio_top.v
-!i122 7876
+!i122 7908
 L0 1 36
+R10
 R11
-R12
 r1
 !s85 0
 31
-R17
+R16
 !s107 ../src/gpio/gpio_top.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/gpio/gpio_top.v|
 !i113 0
-R14
+R13
 R4
 vmemory_x_control
-R7
+R15
 !i10b 1
 !s100 HEG`PH2I3=Yz]iL=d09L]1
 IlYN;MGBnW?ORBcPWUeD0G3
-R9
-R15
+R8
+R14
 8../src/memory_x_controller/memory_x_control.v
 F../src/memory_x_controller/memory_x_control.v
-!i122 7887
+!i122 7919
 L0 1 55
+R10
 R11
-R12
 r1
 !s85 0
 31
-R18
+R16
 !s107 ../src/memory_x_controller/memory_x_control.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/memory_x_controller/memory_x_control.v|
 !i113 0
-R14
+R13
 R4
 vmultiplexer2to1
-R8
+R17
 !i10b 1
 !s100 ^@hKa8d3WnF?AOel2[XbJ3
 I2k4mkzZHJ1=eH`lkdKX>g0
+R8
 R9
-R10
 8../src/risc_v_processor/Multiplexer2to1.v
 F../src/risc_v_processor/Multiplexer2to1.v
-!i122 7866
+!i122 7898
 L0 13 21
+R10
 R11
-R12
 r1
 !s85 0
 31
-R13
+R19
 !s107 ../src/risc_v_processor/Multiplexer2to1.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/Multiplexer2to1.v|
 !i113 0
-R14
+R13
 R4
 vmultiplexer4to1
-R8
+R17
 !i10b 1
 !s100 Y^`XXKMF90nNa4<0lGKJX1
 IWeiY<L?CXYc>66SFB4zmR1
+R8
 R9
-R10
 8../src/risc_v_processor/Multiplexer4to1.v
 F../src/risc_v_processor/Multiplexer4to1.v
-!i122 7867
-R19
+!i122 7899
+R18
+R10
 R11
-R12
 r1
 !s85 0
 31
-R13
+R19
 !s107 ../src/risc_v_processor/Multiplexer4to1.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/Multiplexer4to1.v|
 !i113 0
-R14
+R13
 R4
 vmuxregisterfile
-R8
+R17
 !i10b 1
 !s100 TVC>dG1OQ=1WSkXfCY4EN1
 I0kkEMY=PD62Lb?9MMgiOI0
+R8
 R9
-R10
 8../src/risc_v_processor/MUXRegisterFile.v
 F../src/risc_v_processor/MUXRegisterFile.v
-!i122 7868
+!i122 7900
 L0 2 82
+R10
 R11
-R12
 r1
 !s85 0
 31
-R13
+R19
 !s107 ../src/risc_v_processor/MUXRegisterFile.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/MUXRegisterFile.v|
 !i113 0
-R14
+R13
 R4
 vpc_register
-R16
+R17
 !i10b 1
 !s100 iGe[V8=>mojiPe:oF7<9T3
 Iak68OhU=0JFaEg>LVFakz2
+R8
 R9
-R10
 8../src/risc_v_processor/PC_Register.v
 F../src/risc_v_processor/PC_Register.v
-!i122 7869
+!i122 7901
 L0 15 23
+R10
 R11
-R12
 r1
 !s85 0
 31
-R17
+R19
 !s107 ../src/risc_v_processor/PC_Register.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/PC_Register.v|
 !i113 0
-R14
+R13
 R4
 vpiso_lsb
-R16
+R15
 !i10b 1
 !s100 AO1bRlkF5NaG@`8Z_eHHV1
 I2@6Q`[ZoSmAi0M@dSm5XF0
+R8
 R9
-R10
 8../src/uart/piso_lsb.v
 F../src/uart/piso_lsb.v
-!i122 7881
+!i122 7913
 Z20 L0 1 25
+R10
 R11
-R12
 r1
 !s85 0
 31
-R17
+R16
 !s107 ../src/uart/piso_lsb.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/uart/piso_lsb.v|
 !i113 0
-R14
+R13
 R4
 vprogrammemory
-R16
+R17
 !i10b 1
 !s100 JYWR@a`8zCE^UK0D4m]WV2
 I^F^0aF6]We`nmmkPn;f<V2
+R8
 R9
-R10
 8../src/risc_v_processor/ProgramMemory.v
 F../src/risc_v_processor/ProgramMemory.v
-!i122 7870
+!i122 7902
 L0 15 29
+R10
 R11
-R12
 r1
 !s85 0
 31
-R17
+R19
 !s107 ../src/risc_v_processor/ProgramMemory.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/ProgramMemory.v|
 !i113 0
-R14
+R13
 R4
 vregister
-R16
+R17
 !i10b 1
 !s100 D1EZ]BNO5KQ6Ab`odATk?3
 I2VWj?FUmaaljTlg@YDa]83
+R8
 R9
-R10
 8../src/risc_v_processor/Register.v
 F../src/risc_v_processor/Register.v
-!i122 7871
+!i122 7903
 L0 12 23
+R10
 R11
-R12
 r1
 !s85 0
 31
-R17
+R19
 !s107 ../src/risc_v_processor/Register.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/Register.v|
 !i113 0
-R14
+R13
 R4
 vregister_sp
-R16
+R15
 !i10b 1
 !s100 OC;KcLF8mzZ?LR=JVcAhQ0
 I`FSQf^Zba9?QfBEa7KXP02
+R8
 R9
-R10
 8../src/risc_v_processor/Register_sp.v
 F../src/risc_v_processor/Register_sp.v
-!i122 7877
+!i122 7909
 L0 1 23
+R10
 R11
-R12
 r1
 !s85 0
 31
-R17
+R16
 !s107 ../src/risc_v_processor/Register_sp.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/Register_sp.v|
 !i113 0
-R14
+R13
 R4
 vregisterfile
-R16
+R17
 !i10b 1
 !s100 5UAC`>6UR`Q:bR4Lfja@H0
 I]WT?1GzjFS7CNeZb1ZfjL2
+R8
 R9
-R10
 8../src/risc_v_processor/RegisterFile.v
 F../src/risc_v_processor/RegisterFile.v
-!i122 7872
+!i122 7904
 L0 15 513
+R10
 R11
-R12
 r1
 !s85 0
 31
-R17
+R19
 !s107 ../src/risc_v_processor/RegisterFile.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/RegisterFile.v|
 !i113 0
-R14
+R13
 R4
 vRISC_V_Multi_Cycle
 !s110 1680329851
@@ -836,8 +837,8 @@ w1680329536
 F../src/RISC_V_Multi_Cycle.v
 !i122 6699
 L0 1 181
+R10
 R11
-R12
 r1
 !s85 0
 31
@@ -845,186 +846,186 @@ r1
 !s107 ../src/RISC_V_Multi_Cycle.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/RISC_V_Multi_Cycle.v|
 !i113 0
-R14
+R13
 R4
 n@r@i@s@c_@v_@multi_@cycle
 vRISC_V_processor
-R8
+R7
 !i10b 1
 !s100 MPPF_k1[P<TKEXMBhn?^K0
 IIM<E9IO4H`5jEz;KXEUo_0
-R9
+R8
 w1680603507
 8../src/risc_v_processor/RISC_V_processor.v
 F../src/risc_v_processor/RISC_V_processor.v
-!i122 7857
+!i122 7889
 L0 12 284
+R10
 R11
-R12
 r1
 !s85 0
 31
-R13
+R12
 !s107 ../src/risc_v_processor/RISC_V_processor.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/RISC_V_processor.v|
 !i113 0
-R14
+R13
 R4
 n@r@i@s@c_@v_processor
 vRISC_V_processor_TB
-R8
+R7
 !i10b 1
 !s100 OeIgT`WA?^=<1aIc9V>gU1
 IfMQ[^5];2GXDaGR0d:VaD3
-R9
+R8
 w1680574675
 8./RISC_V_processor_TB.v
 F./RISC_V_processor_TB.v
-!i122 7858
+!i122 7890
 L0 16 129
+R10
 R11
-R12
 r1
 !s85 0
 31
-R13
+R12
 !s107 ./RISC_V_processor_TB.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|./RISC_V_processor_TB.v|
 !i113 0
-R14
+R13
 R4
 n@r@i@s@c_@v_processor_@t@b
 vRisc_V_Single_Cycle
-R16
+R15
 !i10b 1
 !s100 W4cSCZF;zKJDlBHGe7:[T3
 Il0Lne_BO:Q_L:^n>hW0lb0
-R9
-R15
+R8
+R14
 8../src/Risc_V_Single_Cycle.v
 F../src/Risc_V_Single_Cycle.v
-!i122 7875
+!i122 7907
 L0 1 143
+R10
 R11
-R12
 r1
 !s85 0
 31
-R17
+R19
 !s107 ../src/Risc_V_Single_Cycle.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/Risc_V_Single_Cycle.v|
 !i113 0
-R14
+R13
 R4
 n@risc_@v_@single_@cycle
 vShiftLeft2
-R16
+R17
 !i10b 1
 !s100 b3V>h@gZW1U<8zVK1PU2n2
 Ie8[:ifAc>?FBk7UDS6YUV0
+R8
 R9
-R10
 8../src/risc_v_processor/ShiftLeft2.v
 F../src/risc_v_processor/ShiftLeft2.v
-!i122 7873
+!i122 7905
 L0 12 10
+R10
 R11
-R12
 r1
 !s85 0
 31
-R17
+R19
 !s107 ../src/risc_v_processor/ShiftLeft2.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/ShiftLeft2.v|
 !i113 0
-R14
+R13
 R4
 n@shift@left2
 vsignextend
-R16
+R17
 !i10b 1
 !s100 nTH7BG@5VZ00N`j^=P<6I0
 IF7T[k5TmgA>6E_^fFkg4`3
-R9
+R8
 w1680578113
 8../src/risc_v_processor/SignExtend.v
 F../src/risc_v_processor/SignExtend.v
-!i122 7874
+!i122 7906
 L0 14 79
+R10
 R11
-R12
 r1
 !s85 0
 31
-R17
+R19
 !s107 ../src/risc_v_processor/SignExtend.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/SignExtend.v|
 !i113 0
-R14
+R13
 R4
 vsipo_lsb
-R7
+R15
 !i10b 1
 !s100 Xi?eER5m<[:Lmh]b:2P?91
 IE3_8H4]Dg0J?Zn>AOVM^g1
+R8
 R9
-R10
 8../src/uart/sipo_lsb.v
 F../src/uart/sipo_lsb.v
-!i122 7882
+!i122 7914
 R20
+R10
 R11
-R12
 r1
 !s85 0
 31
-R18
+R16
 !s107 ../src/uart/sipo_lsb.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/uart/sipo_lsb.v|
 !i113 0
-R14
+R13
 R4
 vtop_memory_x
-R7
+!s110 1680603971
 !i10b 1
 !s100 BPC2];;W0BVZkQU7MXbM]2
 Ia1AL9U>CBcUDE[P0n@gH63
-R9
-R15
+R8
+R14
 8../src/memory_x_controller/top_memory_x.v
 F../src/memory_x_controller/top_memory_x.v
-!i122 7888
+!i122 7920
 L0 1 64
+R10
 R11
-R12
 r1
 !s85 0
 31
-R18
+!s108 1680603971.000000
 !s107 ../src/memory_x_controller/top_memory_x.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/memory_x_controller/top_memory_x.v|
 !i113 0
-R14
+R13
 R4
 vuart_top
-R7
+R15
 !i10b 1
 !s100 0lleYUY?Q^aCf1an6^Ejn2
 IWW<_14K18hlZ;gKGcBMm;2
+R8
 R9
-R10
 8../src/uart/uart_top.v
 F../src/uart/uart_top.v
-!i122 7886
+!i122 7918
 L0 16 73
+R10
 R11
-R12
 r1
 !s85 0
 31
-R18
+R16
 !s107 ../src/uart/uart_top.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/uart/uart_top.v|
 !i113 0
-R14
+R13
 R4
