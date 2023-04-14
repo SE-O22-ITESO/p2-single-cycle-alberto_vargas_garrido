@@ -1,6 +1,7 @@
 module gpio_top
 (
     input gpio_clk,
+	input gpio_rst,
     input wite_to_gpio,
     input [7:0] gpio_port_read_in,
     input [7:0] gpio_port_write_in,
@@ -14,7 +15,7 @@ register
 gpio_buffer_in
 (
 	.clk(gpio_clk),
-	.reset(1'b0),
+	.reset(gpio_rst),
 	.enable(1'b1),
 	.datainput(gpio_port_read_in),
 
@@ -26,7 +27,7 @@ register
 gpio_buffer_out
 (
 	.clk(gpio_clk),
-	.reset(1'b0),
+	.reset(gpio_rst),
 	.enable(wite_to_gpio),
 	.datainput(gpio_port_write_in),
 

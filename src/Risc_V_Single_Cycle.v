@@ -112,6 +112,7 @@ gpio_top
 gpio
 (
 	.gpio_clk(clk_n),
+	.gpio_rst(rst_n),
     .wite_to_gpio(out_write_en[1]),
     .gpio_port_read_in(gpio_port_in),
     .gpio_port_write_in(out_data_wire[7:0]),
