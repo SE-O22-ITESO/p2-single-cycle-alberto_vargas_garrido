@@ -46,13 +46,16 @@ wire branchge_wire;
 wire regwrite_wire;
 wire memwrite_wire;
 
+wire [31:0] ifid_intruction_wire;
+
 wire [31:0] branch_pc_mux_wire;
 
 wire [31:0 ]immediateextend_wire;
 
 wire [31:0] pc_wire;
+wire [31:0] ifid_pc_wire;
 
-wire [31:0] reg_instruction_wire = intruction;
+wire [31:0] reg_instruction_wire;
 
 wire [31:0] readdata1_wire;
 wire [31:0] readdata2_wire;
@@ -86,14 +89,36 @@ wire memread_wire;
 
 wire zero_wire;
 wire alessb_wire;
+
+////Pipelines wires////
+wire idex_address_sel_wire;
+wire idex_jal_wire;
+wire idex_alu_pc_sel_wire;
+wire idex_brancheq_wire;
+wire idex_branchne_wire;
+wire idex_branchlt_wire;
+wire idex_branchge_wire;
+wire idex_a_alusrc_wire;
+wire [1:0] idex_b_alusrc_wire;
+wire [1:0] idex_memtoreg_wire;
+wire idex_regwrite_wire;
+wire idex_memread_wire;
+wire idex_memwrite_wire;
+wire [3:0] idex_aluop_wire;
+wire [31:0] idex_ifid_pc_wire;
+wire [31:0] idex_readdata1_wire; 
+wire [31:0] idex_readdata2_wire; 
+wire [31:0] idex_immediateextend_wire;
+wire [21:0] idex_ifid_intruction_wire;
+
 //******************************************************************/
 //******control units***********************************************/
 control
 controlunit
 (
 	// input
-	.op(reg_instruction_wire[6:0]),
-	.func3(reg_instruction_wire[14:12]),
+	.op(ifid_intruction_wire[6:0]),
+	.func3(ifid_intruction_wire[14:12]),
 	// Para identificar las instrucciones JR, asi como para activar offset cuando ocurre SW y LW
 	// no basta con el codigo de operacion, pues las instrucciones R por ejemplo no se diferencian por opcode (todas 00).
 	// Sino que se utiliza func en descripciones de compuertas logicas para tener el control correcto de dichas señales.
@@ -118,9 +143,9 @@ controlunit
 alucontrol
 alu_control
 (
-	.aluop(aluop_wire),
-	.func3(reg_instruction_wire[14:12]),
-	.func7(reg_instruction_wire[31:25]),
+	.aluop(),
+	.func3(),
+	.func7(),
 	
 	.aluoperation(alu_control_wire)
 
@@ -129,23 +154,23 @@ alu_control
 //******************************************************************/
 //******multiplexer*************************************************/
 
+//(zero_wire & (brancheq_wire | branchge_wire)) |
+//		(~zero_wire & branchne_wire) |
+//		(alessb_wire & branchlt_wire) |
+//		(~alessb_wire & branchge_wire)) |
+//		jal_wire
+
 multiplexer2to1
 #(
 	.nbits(32)
 )
 branch_pc_mux
 (
-	.selector(
-		((zero_wire & (brancheq_wire | branchge_wire)) |
-		(~zero_wire & branchne_wire) |
-		(alessb_wire & branchlt_wire) |
-		(~alessb_wire & branchge_wire)) |
-		jal_wire
-	),
-	.mux_data0(4 + pc_wire),
-	.mux_data1(immediateextend_wire + pc_wire),
+	.selector(),
+	.mux_data0(),
+	.mux_data1(),
 	
-	.mux_output(branch_pc_mux_wire)
+	.mux_output()
 
 );
 
@@ -155,11 +180,11 @@ multiplexer2to1
 )
 alu_pc_mux
 (
-	.selector(alu_pc_sel_wire),
-	.mux_data0(branch_pc_mux_wire),
-	.mux_data1(aluresult_wire),
+	.selector(),
+	.mux_data0(),
+	.mux_data1(),
 	
-	.mux_output(alu_pc_mux_wire)
+	.mux_output()
 
 );
 
@@ -169,11 +194,11 @@ multiplexer2to1
 )
 a_mux
 (
-	.selector(a_alusrc_wire),
-	.mux_data0(readdata1_wire),
-	.mux_data1(32'h00000000),
+	.selector(),
+	.mux_data0(),
+	.mux_data1(),
 	
-	.mux_output(a_mux_wire)
+	.mux_output()
 
 );
 
@@ -183,13 +208,13 @@ multiplexer4to1
 )
 b_mux
 (
-	.selector(b_alusrc_wire),
-	.mux_data0(readdata2_wire),
-	.mux_data1(immediateextend_wire),
-	.mux_data2(immediateextend_wire + pc_wire),
-	.mux_data3(32'h00000000),
+	.selector(),
+	.mux_data0(),
+	.mux_data1(),
+	.mux_data2(),
+	.mux_data3(),
 
-	.mux_output(b_mux_wire)
+	.mux_output()
 
 );
 
@@ -199,13 +224,13 @@ multiplexer4to1
 )
 aluout_mux
 (
-	.selector(memtoreg_wire),
-	.mux_data0(aluresult_wire),
-	.mux_data1(received_data),
-	.mux_data2(4 + pc_wire),
-	.mux_data3(32'h00000000),
+	.selector(),
+	.mux_data0(),
+	.mux_data1(),
+	.mux_data2(),
+	.mux_data3(),
 	
-	.mux_output(aluout_mux_wire)
+	.mux_output()
 
 );
 
@@ -215,11 +240,11 @@ multiplexer2to1
 )
 address_mux
 (
-	.selector(address_sel_wire),
-	.mux_data0(32'h00000000),
-	.mux_data1(aluresult_wire),
+	.selector(),
+	.mux_data0(),
+	.mux_data1(),
 	
-	.mux_output(address_mux_wire)
+	.mux_output()
 
 );
 //******************************************************************/
@@ -233,7 +258,7 @@ pc
 	.clk(clk_wire),
 	.reset(reset),
 	.enable(1'b1),
-	.newpc(alu_pc_mux_wire),
+	.newpc(),
 	
 	
 	.pcvalue(pc_wire)
@@ -244,23 +269,131 @@ register_file
 (
 	.clk(clk_wire),
 	.reset(reset),
-	.regwrite(regwrite_wire),
-	.writeregister(reg_instruction_wire[11:7]),
-	.readregister1(reg_instruction_wire[19:15]),
-	.readregister2(reg_instruction_wire[24:20]),
-	.writedata(aluout_mux_wire),
+	.regwrite(),
+	.writeregister(),
+	.readregister1(ifid_intruction_wire[19:15]),
+	.readregister2(ifid_intruction_wire[24:20]),
+	.writedata(),
 	
 	.readdata1(readdata1_wire),
 	.readdata2(readdata2_wire)
 
 );
+//******************************************************************/
+//******pipeline*******************************************************/
+
+registerpipeline
+#(
+	.n(64)
+)
+pipeline_ifid
+(
+	.clk(clk_wire),
+	.reset(reset),
+	.enable(),
+    .clear(),
+	.datainput({pc_wire, intruction}),
+	
+	.dataoutput({ifid_pc_wire, ifid_intruction_wire})
+);
+
+registerpipeline
+#(
+	.n(32+32+32+32+7+3+7+5+19)
+)
+pipeline_idex
+(
+	.clk(clk_wire),
+	.reset(reset),
+	.enable(),
+    .clear(),
+	.datainput({
+		address_sel_wire,
+		jal_wire,
+		alu_pc_sel_wire,
+		brancheq_wire,
+		branchne_wire,
+		branchlt_wire,
+		branchge_wire,
+		a_alusrc_wire,
+		b_alusrc_wire,
+		memtoreg_wire,
+		regwrite_wire,
+		memread_wire,
+		memwrite_wire,
+		aluop_wire,
+		ifid_pc_wire,
+		readdata1_wire, 
+		readdata2_wire, 
+		immediateextend_wire,
+		ifid_intruction_wire[31:25],
+		ifid_intruction_wire[14:12],
+		ifid_intruction_wire[6:0],
+		ifid_intruction_wire[11:7]
+	}),
+	
+	.dataoutput({
+		idex_address_sel_wire,
+		idex_jal_wire,
+		idex_alu_pc_sel_wire,
+		idex_brancheq_wire,
+		idex_branchne_wire,
+		idex_branchlt_wire,
+		idex_branchge_wire,
+		idex_a_alusrc_wire,
+		idex_b_alusrc_wire,
+		idex_memtoreg_wire,
+		idex_regwrite_wire,
+		idex_memread_wire,
+		idex_memwrite_wire,
+		idex_aluop_wire,
+		idex_ifid_pc_wire,
+		idex_readdata1_wire, 
+		idex_readdata2_wire, 
+		idex_immediateextend_wire,
+		idex_ifid_intruction_wire[21:15],
+		idex_ifid_intruction_wire[14:12],
+		idex_ifid_intruction_wire[11:5],
+		idex_ifid_intruction_wire[4:0]
+	})
+);
+
+registerpipeline
+#(
+	.n(32)
+)
+pipeline_exmem
+(
+	.clk(clk_wire),
+	.reset(reset),
+	.enable(),
+    .clear(),
+	.datainput(),
+	
+	.dataoutput()
+);
+
+registerpipeline
+#(
+	.n(32)
+)
+pipeline_memwb
+(
+	.clk(clk_wire),
+	.reset(reset),
+	.enable(),
+    .clear(),
+	.datainput(),
+	
+	.dataoutput()
+);
 
 //******************************************************************/
-//******extend*******************************************************/
+//******extend******************************************************/
 signextend
 signextendforconstants
 (   
-	.datainput(reg_instruction_wire),
+	.datainput(ifid_intruction_wire),
 	.signextendoutput(immediateextend_wire)
 );
 
@@ -270,13 +403,13 @@ signextendforconstants
 alu
 arithmeticlogicunit 
 (
-	.aluoperation(alu_control_wire),
-	.a(a_mux_wire),
-	.b(b_mux_wire),
+	.aluoperation(),
+	.a(),
+	.b(),
 	
-	.zero(zero_wire),
-	.alessb(alessb_wire),
-	.aluresult(aluresult_wire)
+	.zero(),
+	.alessb(),
+	.aluresult()
 );
 
 //******************************************************************/
@@ -286,9 +419,9 @@ arithmeticlogicunit
 //******************************************************************/
 //*assign section***************************************************/
 
-assign memread = memread_wire;
-assign memwrite = memwrite_wire;
-assign writedata = readdata2_wire;
+//assign memread = memread_wire;
+//assign memwrite = memwrite_wire;
+//assign writedata = readdata2_wire;
 assign pc_address = pc_wire;
 assign data_address = address_mux_wire;
 

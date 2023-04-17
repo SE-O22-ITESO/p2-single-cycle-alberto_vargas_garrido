@@ -59,39 +59,6 @@ set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/ALUControl.v
-set_global_assignment -name VERILOG_FILE src/gpio/gpio_top.v
-set_global_assignment -name VERILOG_FILE src/memory_x_controller/top_memory_x.v
-set_global_assignment -name VERILOG_FILE src/memory_x_controller/memory_x_control.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/SignExtend.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/ShiftLeft2.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/RISC_V_processor.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/RegisterFile.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/Register_sp.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/Register.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/ProgramMemory.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/PC_Register.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/MUXRegisterFile.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/Multiplexer4to1.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/Multiplexer2to1.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/Divider16bits.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/Definitions.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/DecoderRegisterFile.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/DataMemory.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/Control.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/ANDGate.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/ALU.v
-set_global_assignment -name VERILOG_FILE src/risc_v_processor/Adder32bits.v
-set_global_assignment -name VERILOG_FILE src/uart/uart_top.v
-set_global_assignment -name VERILOG_FILE src/uart/sipo_lsb.v
-set_global_assignment -name VERILOG_FILE src/uart/piso_lsb.v
-set_global_assignment -name VERILOG_FILE src/uart/fsm_uart_tx.v
-set_global_assignment -name VERILOG_FILE src/uart/fsm_uart_rx.v
-set_global_assignment -name VERILOG_FILE src/uart/device_uart_tx.v
-set_global_assignment -name VERILOG_FILE src/uart/device_uart_rx.v
-set_global_assignment -name VERILOG_FILE src/uart/counter.v
-set_global_assignment -name VERILOG_FILE src/uart/clk_div.v
-set_global_assignment -name VERILOG_FILE src/Risc_V_Single_Cycle.v
 set_global_assignment -name NUM_PARALLEL_PROCESSORS 10
 set_location_assignment PIN_AA30 -to reset
 set_location_assignment PIN_AH5 -to uart_serial_input
@@ -115,7 +82,6 @@ set_location_assignment PIN_AE24 -to gpio_port_out[6]
 set_location_assignment PIN_AF24 -to gpio_port_out[7]
 set_global_assignment -name ENABLE_SIGNALTAP ON
 set_global_assignment -name USE_SIGNALTAP_FILE output_files/stp1.stp
-set_global_assignment -name SIGNALTAP_FILE output_files/stp1.stp
 set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_BLOCK_TYPE=AUTO" -section_id auto_signaltap_0
@@ -274,5 +240,40 @@ set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[27] -
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[28] -to auto_signaltap_0|gnd -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id auto_signaltap_0
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id auto_signaltap_0
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/RegisterPopeline.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/ALUControl.v
+set_global_assignment -name VERILOG_FILE src/gpio/gpio_top.v
+set_global_assignment -name VERILOG_FILE src/memory_x_controller/top_memory_x.v
+set_global_assignment -name VERILOG_FILE src/memory_x_controller/memory_x_control.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/SignExtend.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/ShiftLeft2.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/RISC_V_processor.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/RegisterFile.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Register_sp.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Register.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/ProgramMemory.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/PC_Register.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/MUXRegisterFile.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Multiplexer4to1.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Multiplexer2to1.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Divider16bits.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Definitions.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/DecoderRegisterFile.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/DataMemory.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Control.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/ANDGate.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/ALU.v
+set_global_assignment -name VERILOG_FILE src/risc_v_processor/Adder32bits.v
+set_global_assignment -name VERILOG_FILE src/uart/uart_top.v
+set_global_assignment -name VERILOG_FILE src/uart/sipo_lsb.v
+set_global_assignment -name VERILOG_FILE src/uart/piso_lsb.v
+set_global_assignment -name VERILOG_FILE src/uart/fsm_uart_tx.v
+set_global_assignment -name VERILOG_FILE src/uart/fsm_uart_rx.v
+set_global_assignment -name VERILOG_FILE src/uart/device_uart_tx.v
+set_global_assignment -name VERILOG_FILE src/uart/device_uart_rx.v
+set_global_assignment -name VERILOG_FILE src/uart/counter.v
+set_global_assignment -name VERILOG_FILE src/uart/clk_div.v
+set_global_assignment -name VERILOG_FILE src/Risc_V_Single_Cycle.v
+set_global_assignment -name SIGNALTAP_FILE output_files/stp1.stp
 set_global_assignment -name SLD_FILE db/stp1_auto_stripped.stp
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
