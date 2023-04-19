@@ -327,7 +327,7 @@ pipeline_ifid
 
 registerpipeline
 #(
-	.n(32+32+32+32+7+3+7+5+19)
+	.n(169)
 )
 pipeline_idex
 (

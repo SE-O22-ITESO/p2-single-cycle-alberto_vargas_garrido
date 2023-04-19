@@ -13,7 +13,7 @@ module registerpipeline
 	output reg [n-1:0] dataoutput
 );
 
-always@(negedge reset or posedge clk) begin
+always@(negedge reset or negedge clk) begin
 	if(!reset)
 		dataoutput <= 0;
 	else begin
