@@ -56,6 +56,7 @@ wire [31:0] pc_wire;
 wire [31:0] ifid_pc_wire;
 
 wire [31:0] reg_instruction_wire;
+wire [31:0] adder_pcimm_wire;
 
 wire [31:0] readdata1_wire;
 wire [31:0] readdata2_wire;
@@ -90,6 +91,8 @@ wire memread_wire;
 wire zero_wire;
 wire alessb_wire;
 
+wire [31:0] adder_pc_wire;
+
 ////Pipelines wires////
 wire idex_address_sel_wire;
 wire idex_jal_wire;
@@ -105,12 +108,37 @@ wire idex_regwrite_wire;
 wire idex_memread_wire;
 wire idex_memwrite_wire;
 wire [3:0] idex_aluop_wire;
-wire [31:0] idex_ifid_pc_wire;
+wire [31:0] idex_pc_wire;
 wire [31:0] idex_readdata1_wire; 
 wire [31:0] idex_readdata2_wire; 
 wire [31:0] idex_immediateextend_wire;
-wire [21:0] idex_ifid_intruction_wire;
+wire [21:0] idex_intruction_wire;
 
+wire [4:0] exmem_intruction_wire; //5
+wire [31:0] exmem_adder_pcimm_wire; //32
+wire exmem_zero_wire; //1
+wire exmem_alessb_wire; //1
+wire [31:0] exmem_readdata2_wire; //32
+wire [31:0] exmem_aluresult_wire; //32
+wire exmem_memread_wire; //1
+wire exmem_memwrite_wire; //1
+wire exmem_brancheq_wire; //1
+wire exmem_branchne_wire; //1
+wire exmem_branchlt_wire; //1
+wire exmem_branchge_wire; //1
+wire exmem_jal_wire; //1
+wire exmem_alu_pc_sel_wire; //1
+//wire exmem_address_mux_wire; //1
+wire exmem_address_sel_wire;
+wire exmem_memtoreg_wire;
+wire exmem_regwrite_wire;
+//wire [31:0] exmem_adder_pc_wire;
+
+wire [4:0] memwb_intruction_wire; //5
+wire [31:0] memwb_received_data; //32
+wire [31:0] memwb_aluresult_wire; //32
+wire memewb_regwrite_wire; //1
+wire [1:0] memewb_memtoreg_wire; //2
 //******************************************************************/
 //******control units***********************************************/
 control
@@ -143,9 +171,9 @@ controlunit
 alucontrol
 alu_control
 (
-	.aluop(),
-	.func3(),
-	.func7(),
+	.aluop(idex_intruction_wire[11:5]),
+	.func3(idex_intruction_wire[14:12]),
+	.func7(idex_intruction_wire[21:15]),
 	
 	.aluoperation(alu_control_wire)
 
@@ -154,23 +182,23 @@ alu_control
 //******************************************************************/
 //******multiplexer*************************************************/
 
-//(zero_wire & (brancheq_wire | branchge_wire)) |
-//		(~zero_wire & branchne_wire) |
-//		(alessb_wire & branchlt_wire) |
-//		(~alessb_wire & branchge_wire)) |
-//		jal_wire
-
 multiplexer2to1
 #(
 	.nbits(32)
 )
 branch_pc_mux
 (
-	.selector(),
-	.mux_data0(),
-	.mux_data1(),
+	.selector(
+		((exmem_zero_wire & (exmem_brancheq_wire | exmem_branchge_wire)) |
+		(~exmem_zero_wire & exmem_branchne_wire) |
+		(exmem_alessb_wire & exmem_branchlt_wire) |
+		(~exmem_alessb_wire & exmem_branchge_wire)) |
+		exmem_jal_wire
+	),
+	.mux_data0(adder_pc_wire),
+	.mux_data1(exmem_adder_pcimm_wire),
 	
-	.mux_output()
+	.mux_output(branch_pc_mux_wire)
 
 );
 
@@ -180,11 +208,11 @@ multiplexer2to1
 )
 alu_pc_mux
 (
-	.selector(),
-	.mux_data0(),
-	.mux_data1(),
+	.selector(exmem_alu_pc_sel_wire),
+	.mux_data0(branch_pc_mux_wire),
+	.mux_data1(exmem_aluresult_wire),
 	
-	.mux_output()
+	.mux_output(alu_pc_mux_wire)
 
 );
 
@@ -194,11 +222,11 @@ multiplexer2to1
 )
 a_mux
 (
-	.selector(),
-	.mux_data0(),
-	.mux_data1(),
+	.selector(idex_a_alusrc_wire),
+	.mux_data0(idex_readdata1_wire),
+	.mux_data1(32'h00000000),
 	
-	.mux_output()
+	.mux_output(a_mux_wire)
 
 );
 
@@ -208,13 +236,13 @@ multiplexer4to1
 )
 b_mux
 (
-	.selector(),
-	.mux_data0(),
-	.mux_data1(),
-	.mux_data2(),
+	.selector(idex_b_alusrc_wire),
+	.mux_data0(idex_readdata2_wire),
+	.mux_data1(idex_immediateextend_wire),
+	.mux_data2(adder_pcimm_wire),
 	.mux_data3(),
 
-	.mux_output()
+	.mux_output(b_mux_wire)
 
 );
 
@@ -224,13 +252,13 @@ multiplexer4to1
 )
 aluout_mux
 (
-	.selector(),
-	.mux_data0(),
-	.mux_data1(),
+	.selector(memewb_memtoreg_wire),
+	.mux_data0(memwb_received_data),
+	.mux_data1(memwb_aluresult_wire),
 	.mux_data2(),
 	.mux_data3(),
 	
-	.mux_output()
+	.mux_output(aluout_mux_wire)
 
 );
 
@@ -240,11 +268,11 @@ multiplexer2to1
 )
 address_mux
 (
-	.selector(),
-	.mux_data0(),
-	.mux_data1(),
+	.selector(exmem_address_sel_wire),
+	.mux_data0(exmem_aluresult_wire),
+	.mux_data1(32'h00000000),
 	
-	.mux_output()
+	.mux_output(address_mux_wire)
 
 );
 //******************************************************************/
@@ -258,7 +286,7 @@ pc
 	.clk(clk_wire),
 	.reset(reset),
 	.enable(1'b1),
-	.newpc(),
+	.newpc(alu_pc_mux_wire),
 	
 	
 	.pcvalue(pc_wire)
@@ -269,11 +297,11 @@ register_file
 (
 	.clk(clk_wire),
 	.reset(reset),
-	.regwrite(),
-	.writeregister(),
+	.regwrite(memewb_regwrite_wire),
+	.writeregister(memwb_intruction_wire),
 	.readregister1(ifid_intruction_wire[19:15]),
 	.readregister2(ifid_intruction_wire[24:20]),
-	.writedata(),
+	.writedata(aluout_mux_wire),
 	
 	.readdata1(readdata1_wire),
 	.readdata2(readdata2_wire)
@@ -290,8 +318,8 @@ pipeline_ifid
 (
 	.clk(clk_wire),
 	.reset(reset),
-	.enable(),
-    .clear(),
+	.enable(1'b1),
+    .clear(1'b0),
 	.datainput({pc_wire, intruction}),
 	
 	.dataoutput({ifid_pc_wire, ifid_intruction_wire})
@@ -305,8 +333,8 @@ pipeline_idex
 (
 	.clk(clk_wire),
 	.reset(reset),
-	.enable(),
-    .clear(),
+	.enable(1'b1),
+    .clear(1'b0),
 	.datainput({
 		address_sel_wire,
 		jal_wire,
@@ -347,45 +375,92 @@ pipeline_idex
 		idex_memread_wire,
 		idex_memwrite_wire,
 		idex_aluop_wire,
-		idex_ifid_pc_wire,
+		idex_pc_wire,
 		idex_readdata1_wire, 
 		idex_readdata2_wire, 
 		idex_immediateextend_wire,
-		idex_ifid_intruction_wire[21:15],
-		idex_ifid_intruction_wire[14:12],
-		idex_ifid_intruction_wire[11:5],
-		idex_ifid_intruction_wire[4:0]
+		idex_intruction_wire[21:15],
+		idex_intruction_wire[14:12],
+		idex_intruction_wire[11:5],
+		idex_intruction_wire[4:0]
 	})
 );
 
 registerpipeline
 #(
-	.n(32)
+	.n(114)
 )
 pipeline_exmem
 (
 	.clk(clk_wire),
 	.reset(reset),
-	.enable(),
-    .clear(),
-	.datainput(),
+	.enable(1'b1),
+    .clear(1'b0),
+	.datainput({
+		idex_memread_wire,
+		idex_memwrite_wire,
+		idex_address_sel_wire,
+		idex_memtoreg_wire,
+		idex_alu_pc_sel_wire,
+		idex_regwrite_wire,
+		idex_jal_wire,
+		idex_brancheq_wire,
+		idex_branchne_wire,
+		idex_branchlt_wire,
+		idex_branchge_wire,
+		adder_pcimm_wire, 
+		zero_wire, 
+		alessb_wire, 
+		aluresult_wire,
+		idex_readdata2_wire,
+		idex_intruction_wire[4:0]
+	}),
 	
-	.dataoutput()
+	.dataoutput({
+		exmem_memread_wire,
+		exmem_memwrite_wire,
+		exmem_address_sel_wire,
+		exmem_memtoreg_wire,
+		exmem_alu_pc_sel_wire,
+		exmem_regwrite_wire,
+		exmem_jal_wire,
+		exmem_brancheq_wire,
+		exmem_branchne_wire,
+		exmem_branchlt_wire,
+		exmem_branchge_wire,
+		exmem_adder_pcimm_wire, 
+		exmem_zero_wire, 
+		exmem_alessb_wire, 
+		exmem_aluresult_wire,
+		exmem_readdata2_wire, 
+		exmem_intruction_wire
+	})
 );
 
 registerpipeline
 #(
-	.n(32)
+	.n(72)
 )
 pipeline_memwb
 (
 	.clk(clk_wire),
 	.reset(reset),
-	.enable(),
-    .clear(),
-	.datainput(),
+	.enable(1'b1),
+    .clear(1'b0),
+	.datainput({
+		exmem_memtoreg_wire, 
+		exmem_regwrite_wire, 
+		received_data, 
+		exmem_aluresult_wire, 
+		exmem_intruction_wire
+	}),
 	
-	.dataoutput()
+	.dataoutput({
+		memewb_memtoreg_wire, 
+		memewb_regwrite_wire ,
+		memwb_received_data, 
+		memwb_aluresult_wire, 
+		memwb_intruction_wire})
 );
 
 //******************************************************************/
@@ -400,16 +475,41 @@ signextendforconstants
 
 //******************************************************************/
 //******alu*********************************************************/
+
+adder32bits
+#(
+	.nbits(32)
+)
+adder_pc
+(
+	.data0(pc_wire),
+	.data1(32'h4),
+	
+	.result(adder_pc_wire)
+);
+
+adder32bits
+#(
+	.nbits(32)
+)
+adder_pcimm
+(
+	.data0(idex_pc_wire),
+	.data1(idex_immediateextend_wire),
+	
+	.result(adder_pcimm_wire)
+);
+
 alu
 arithmeticlogicunit 
 (
-	.aluoperation(),
-	.a(),
-	.b(),
+	.aluoperation(alu_control_wire),
+	.a(a_mux_wire),
+	.b(b_mux_wire),
 	
-	.zero(),
-	.alessb(),
-	.aluresult()
+	.zero(zero_wire),
+	.alessb(alessb_wire),
+	.aluresult(aluresult_wire)
 );
 
 //******************************************************************/
@@ -419,9 +519,9 @@ arithmeticlogicunit
 //******************************************************************/
 //*assign section***************************************************/
 
-//assign memread = memread_wire;
-//assign memwrite = memwrite_wire;
-//assign writedata = readdata2_wire;
+assign memread = exmem_memread_wire;
+assign memwrite = exmem_memwrite_wire;
+assign writedata = exmem_readdata2_wire;
 assign pc_address = pc_wire;
 assign data_address = address_mux_wire;
 
