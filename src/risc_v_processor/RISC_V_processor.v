@@ -130,7 +130,7 @@ wire exmem_jal_wire; //1
 wire exmem_alu_pc_sel_wire; //1
 //wire exmem_address_mux_wire; //1
 wire exmem_address_sel_wire;
-wire exmem_memtoreg_wire;
+wire [1:0] exmem_memtoreg_wire;
 wire exmem_regwrite_wire;
 //wire [31:0] exmem_adder_pc_wire;
 
@@ -171,7 +171,7 @@ controlunit
 alucontrol
 alu_control
 (
-	.aluop(idex_intruction_wire[11:5]),
+	.aluop(idex_aluop_wire),
 	.func3(idex_intruction_wire[14:12]),
 	.func7(idex_intruction_wire[21:15]),
 	
@@ -253,8 +253,8 @@ multiplexer4to1
 aluout_mux
 (
 	.selector(memewb_memtoreg_wire),
-	.mux_data0(memwb_received_data),
-	.mux_data1(memwb_aluresult_wire),
+	.mux_data0(memwb_aluresult_wire),
+	.mux_data1(memwb_received_data),
 	.mux_data2(),
 	.mux_data3(),
 	
@@ -388,7 +388,7 @@ pipeline_idex
 
 registerpipeline
 #(
-	.n(114)
+	.n(115)
 )
 pipeline_exmem
 (
