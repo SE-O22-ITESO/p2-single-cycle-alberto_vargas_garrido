@@ -93,6 +93,14 @@ wire alessb_wire;
 
 wire [31:0] adder_pc_wire;
 
+wire [31:0] forwarda_mux_wire;
+wire [31:0] forwardb_mux_wire;
+
+////Hazard////
+
+wire [1:0] out_forwarda_sel_wire;
+wire [1:0] out_forwardb_sel_wire;
+
 ////Pipelines wires////
 wire idex_address_sel_wire;
 wire idex_jal_wire;
@@ -112,7 +120,7 @@ wire [31:0] idex_pc_wire;
 wire [31:0] idex_readdata1_wire; 
 wire [31:0] idex_readdata2_wire; 
 wire [31:0] idex_immediateextend_wire;
-wire [21:0] idex_intruction_wire;
+wire [31:0] idex_intruction_wire;
 
 wire [4:0] exmem_intruction_wire; //5
 wire [31:0] exmem_adder_pcimm_wire; //32
@@ -173,7 +181,7 @@ alu_control
 (
 	.aluop(idex_aluop_wire),
 	.func3(idex_intruction_wire[14:12]),
-	.func7(idex_intruction_wire[21:15]),
+	.func7(idex_intruction_wire[31:25]),
 	
 	.aluoperation(alu_control_wire)
 
@@ -275,6 +283,39 @@ address_mux
 	.mux_output(address_mux_wire)
 
 );
+
+multiplexer4to1
+#(
+	.nbits(32)
+)
+forwarda_mux
+(
+	.selector(out_forwarda_sel_wire),
+	.mux_data0(a_mux_wire),
+	.mux_data1(aluout_mux_wire),
+	.mux_data2(address_mux_wire),
+	.mux_data3(),
+	
+	.mux_output(forwarda_mux_wire)
+
+);
+
+multiplexer4to1
+#(
+	.nbits(32)
+)
+forwardb_mux
+(
+	.selector(out_forwardb_sel_wire),
+	.mux_data0(b_mux_wire),
+	.mux_data1(aluout_mux_wire),
+	.mux_data2(address_mux_wire),
+	.mux_data3(),
+	
+	.mux_output(forwardb_mux_wire)
+
+);
+
 //******************************************************************/
 //******registers****************************************************/
 pc_register
@@ -327,7 +368,7 @@ pipeline_ifid
 
 registerpipeline
 #(
-	.n(169)
+	.n(179)
 )
 pipeline_idex
 (
@@ -354,10 +395,7 @@ pipeline_idex
 		readdata1_wire, 
 		readdata2_wire, 
 		immediateextend_wire,
-		ifid_intruction_wire[31:25],
-		ifid_intruction_wire[14:12],
-		ifid_intruction_wire[6:0],
-		ifid_intruction_wire[11:7]
+		ifid_intruction_wire
 	}),
 	
 	.dataoutput({
@@ -379,10 +417,7 @@ pipeline_idex
 		idex_readdata1_wire, 
 		idex_readdata2_wire, 
 		idex_immediateextend_wire,
-		idex_intruction_wire[21:15],
-		idex_intruction_wire[14:12],
-		idex_intruction_wire[11:5],
-		idex_intruction_wire[4:0]
+		idex_intruction_wire
 	})
 );
 
@@ -413,7 +448,7 @@ pipeline_exmem
 		alessb_wire, 
 		aluresult_wire,
 		idex_readdata2_wire,
-		idex_intruction_wire[4:0]
+		idex_intruction_wire[11:7]
 	}),
 	
 	.dataoutput({
@@ -464,6 +499,23 @@ pipeline_memwb
 );
 
 //******************************************************************/
+//******hazard******************************************************/
+
+hazardinit
+hazard
+(
+    .in_exmem_regwrite(exmem_regwrite_wire),
+    .in_memwb_regwrite(memewb_regwrite_wire),
+    .in_idex_rs1(idex_intruction_wire[19:15]),
+    .in_idex_rs2(idex_intruction_wire[24:20]),
+    .in_exmem_rd(exmem_intruction_wire),
+    .in_memwb_rd(memwb_intruction_wire),
+
+    .out_forwarda_sel(out_forwarda_sel_wire),
+    .out_forwardb_sel(out_forwardb_sel_wire)
+);
+
+//******************************************************************/
 //******extend******************************************************/
 signextend
 signextendforconstants
@@ -504,8 +556,8 @@ alu
 arithmeticlogicunit 
 (
 	.aluoperation(alu_control_wire),
-	.a(a_mux_wire),
-	.b(b_mux_wire),
+	.a(forwarda_mux_wire),
+	.b(forwardb_mux_wire),
 	
 	.zero(zero_wire),
 	.alessb(alessb_wire),
