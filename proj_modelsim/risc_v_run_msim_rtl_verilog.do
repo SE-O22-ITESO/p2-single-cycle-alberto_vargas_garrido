@@ -23,6 +23,7 @@ vlog -vlog01compat -work work ../src/Risc_V_Single_Cycle.v
 vlog -vlog01compat -work work ../src/gpio/gpio_top.v
 vlog -vlog01compat -work work ../src/risc_v_processor/Register_sp.v
 vlog -vlog01compat -work work ../src/risc_v_processor/RegisterPipeline.v
+vlog -vlog01compat -work work ../src/risc_v_processor/ForwardingUnit.v
 vlog -vlog01compat -work work ../src/risc_v_processor/HazardUnit.v
 
 vlog -vlog01compat -work work ../src/uart/clk_div.v

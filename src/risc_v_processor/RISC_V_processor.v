@@ -97,7 +97,10 @@ wire [31:0] forwarda_mux_wire;
 wire [31:0] forwardb_mux_wire;
 
 ////Hazard////
-
+wire hazard_pcwrite_wire;
+wire hazard_ifidwrite_wire;
+wire hazard_controlsel_wire;
+wire [18:0] control_mux_wire;
 wire [1:0] out_forwarda_sel_wire;
 wire [1:0] out_forwardb_sel_wire;
 
@@ -316,6 +319,35 @@ forwardb_mux
 
 );
 
+multiplexer2to1
+#(
+	.nbits(19)
+)
+control_mux
+(
+	.selector(hazard_controlsel_wire),
+	.mux_data0({
+		address_sel_wire,
+		jal_wire,
+		alu_pc_sel_wire,
+		brancheq_wire,
+		branchne_wire,
+		branchlt_wire,
+		branchge_wire,
+		a_alusrc_wire,
+		b_alusrc_wire,
+		memtoreg_wire,
+		regwrite_wire,
+		memread_wire,
+		memwrite_wire,
+		aluop_wire
+	}),
+	.mux_data1(19'h00000),
+	
+	.mux_output(control_mux_wire)
+
+);
+
 //******************************************************************/
 //******registers****************************************************/
 pc_register
@@ -326,7 +358,7 @@ pc
 (
 	.clk(clk_wire),
 	.reset(reset),
-	.enable(1'b1),
+	.enable(hazard_pcwrite_wire),
 	.newpc(alu_pc_mux_wire),
 	
 	
@@ -359,7 +391,7 @@ pipeline_ifid
 (
 	.clk(clk_wire),
 	.reset(reset),
-	.enable(1'b1),
+	.enable(hazard_ifidwrite_wire),
     .clear(1'b0),
 	.datainput({pc_wire, intruction}),
 	
@@ -377,20 +409,7 @@ pipeline_idex
 	.enable(1'b1),
     .clear(1'b0),
 	.datainput({
-		address_sel_wire,
-		jal_wire,
-		alu_pc_sel_wire,
-		brancheq_wire,
-		branchne_wire,
-		branchlt_wire,
-		branchge_wire,
-		a_alusrc_wire,
-		b_alusrc_wire,
-		memtoreg_wire,
-		regwrite_wire,
-		memread_wire,
-		memwrite_wire,
-		aluop_wire,
+		control_mux_wire,
 		ifid_pc_wire,
 		readdata1_wire, 
 		readdata2_wire, 
@@ -503,6 +522,22 @@ pipeline_memwb
 
 hazardinit
 hazard
+(
+    .in_idex_memread(idex_memread_wire),
+    .in_ifid_rs1(ifid_intruction_wire[19:15]),
+    .in_ifid_rs2(ifid_intruction_wire[24:20]),
+    .in_idex_rd(ifid_intruction_wire[11:7]),
+
+    .pcwrite(hazard_pcwrite_wire),
+    .ifidwrite(hazard_ifidwrite_wire),
+    .controlsel(hazard_controlsel_wire)
+);
+
+//******************************************************************/
+//******forwarding**************************************************/
+
+forwardingunit
+forwarding
 (
     .in_exmem_regwrite(exmem_regwrite_wire),
     .in_memwb_regwrite(memewb_regwrite_wire),

@@ -37,8 +37,17 @@ add wave -noupdate /RISC_V_processor_TB/top/core/arithmeticlogicunit/alessb
 add wave -noupdate /RISC_V_processor_TB/top/core/arithmeticlogicunit/aluresult
 add wave -noupdate /RISC_V_processor_TB/top/core/controlunit/aluop
 add wave -noupdate /RISC_V_processor_TB/top/core/alu_control/aluoperation
+add wave -noupdate -divider {New Divider}
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/in_exmem_regwrite
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/in_memwb_regwrite
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/in_idex_rs1
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/in_idex_rs2
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/in_exmem_rd
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/in_memwb_rd
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/out_forwarda_sel
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/out_forwardb_sel
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {26501 ps} 0}
+WaveRestoreCursors {{Cursor 1} {53845 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 395
 configure wave -valuecolwidth 97

@@ -1,57 +1,30 @@
 module hazardinit
 (
-    input in_exmem_regwrite,
-    input in_memwb_regwrite,
-    input [4:0] in_idex_rs1,
-    input [4:0] in_idex_rs2,
-    input [4:0] in_exmem_rd,
-    input [4:0] in_memwb_rd,
+    input in_idex_memread,
+    input [4:0] in_ifid_rs1,
+    input [4:0] in_ifid_rs2,
+    input [4:0] in_idex_rd,
 
-    output reg[1:0] out_forwarda_sel,
-    output reg[1:0] out_forwardb_sel
+    output reg pcwrite,
+    output reg ifidwrite,
+    output reg controlsel
 );
 
 always @(*) begin
     if(
-        in_exmem_regwrite
-        && (in_exmem_rd != 0)
-        && (in_exmem_rd == in_idex_rs1)
-    ) begin
-        out_forwarda_sel = 2'b10;
-    end
-    else if(
-        in_memwb_regwrite
-        && (in_memwb_rd != 0)
-        && !(in_exmem_regwrite && (in_exmem_rd != 0)
-        && (in_exmem_rd == in_idex_rs1))
-        && (in_memwb_rd == in_idex_rs1)
-    ) begin
-        out_forwarda_sel = 2'b01;
-    end
+        in_idex_memread
+        && ((in_idex_rd == in_ifid_rs1 
+        || in_idex_rd == in_ifid_rs2))
+    )begin
+        pcwrite = 1'b0;
+        ifidwrite = 1'b0;
+        controlsel = 1'b1;
+    end 
     else begin
-        out_forwarda_sel = 2'b00;
+        pcwrite = 1'b1;
+        ifidwrite = 1'b1;
+        controlsel = 1'b0;
     end
-
-    if(
-        in_exmem_regwrite
-        && (in_exmem_rd != 0)
-        && (in_exmem_rd == in_idex_rs2)
-    ) begin
-        out_forwardb_sel = 2'b10;
-    end
-    else if(
-        in_memwb_regwrite
-        && (in_memwb_rd != 0)
-        && !(in_exmem_regwrite && (in_exmem_rd != 0)
-        && (in_exmem_rd == in_idex_rs2))
-        && (in_memwb_rd == in_idex_rs2)
-    ) begin
-        out_forwardb_sel = 2'b01;
-    end
-    else begin
-        out_forwardb_sel = 2'b00;
-    end
-
 end
 
 endmodule
