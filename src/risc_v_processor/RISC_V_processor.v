@@ -280,8 +280,8 @@ multiplexer2to1
 address_mux
 (
 	.selector(exmem_address_sel_wire),
-	.mux_data0(exmem_aluresult_wire),
-	.mux_data1(32'h00000000),
+	.mux_data0(32'h00000000),
+	.mux_data1(exmem_aluresult_wire),
 	
 	.mux_output(address_mux_wire)
 
@@ -296,7 +296,7 @@ forwarda_mux
 	.selector(out_forwarda_sel_wire),
 	.mux_data0(a_mux_wire),
 	.mux_data1(aluout_mux_wire),
-	.mux_data2(address_mux_wire),
+	.mux_data2(exmem_aluresult_wire),
 	.mux_data3(),
 	
 	.mux_output(forwarda_mux_wire)
@@ -312,7 +312,7 @@ forwardb_mux
 	.selector(out_forwardb_sel_wire),
 	.mux_data0(b_mux_wire),
 	.mux_data1(aluout_mux_wire),
-	.mux_data2(address_mux_wire),
+	.mux_data2(exmem_aluresult_wire),
 	.mux_data3(),
 	
 	.mux_output(forwardb_mux_wire)
