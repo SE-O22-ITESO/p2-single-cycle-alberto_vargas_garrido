@@ -97,6 +97,9 @@ wire [31:0] forwarda_mux_wire;
 wire [31:0] forwardb_mux_wire;
 
 ////Hazard////
+wire ifid_clear_wire;
+wire idex_clear_wire;
+wire exmem_clear_wire;
 wire hazard_pcwrite_wire;
 wire hazard_ifidwrite_wire;
 wire hazard_controlsel_wire;
@@ -105,6 +108,9 @@ wire [1:0] out_forwarda_sel_wire;
 wire [1:0] out_forwardb_sel_wire;
 
 ////Pipelines wires////
+wire [31:0] ifid_adder_pc_wire;
+
+wire [31:0] idex_adder_pc_wire;
 wire idex_address_sel_wire;
 wire idex_jal_wire;
 wire idex_alu_pc_sel_wire;
@@ -139,7 +145,7 @@ wire exmem_branchlt_wire; //1
 wire exmem_branchge_wire; //1
 wire exmem_jal_wire; //1
 wire exmem_alu_pc_sel_wire; //1
-//wire exmem_address_mux_wire; //1
+wire [31:0] exmem_adder_pc_wire; //1
 wire exmem_address_sel_wire;
 wire [1:0] exmem_memtoreg_wire;
 wire exmem_regwrite_wire;
@@ -150,6 +156,7 @@ wire [31:0] memwb_received_data; //32
 wire [31:0] memwb_aluresult_wire; //32
 wire memewb_regwrite_wire; //1
 wire [1:0] memewb_memtoreg_wire; //2
+wire [31:0] memwb_adder_pc_wire;
 //******************************************************************/
 //******control units***********************************************/
 control
@@ -266,7 +273,7 @@ aluout_mux
 	.selector(memewb_memtoreg_wire),
 	.mux_data0(memwb_aluresult_wire),
 	.mux_data1(memwb_received_data),
-	.mux_data2(),
+	.mux_data2(memwb_adder_pc_wire),
 	.mux_data3(),
 	
 	.mux_output(aluout_mux_wire)
@@ -385,30 +392,31 @@ register_file
 
 registerpipeline
 #(
-	.n(64)
+	.n(64+32)
 )
 pipeline_ifid
 (
 	.clk(clk_wire),
 	.reset(reset),
 	.enable(hazard_ifidwrite_wire),
-    .clear(1'b0),
-	.datainput({pc_wire, intruction}),
+    .clear(ifid_clear_wire),
+	.datainput({adder_pc_wire, pc_wire, intruction}),
 	
-	.dataoutput({ifid_pc_wire, ifid_intruction_wire})
+	.dataoutput({ifid_adder_pc_wire, ifid_pc_wire, ifid_intruction_wire})
 );
 
 registerpipeline
 #(
-	.n(179)
+	.n(179+32)
 )
 pipeline_idex
 (
 	.clk(clk_wire),
 	.reset(reset),
 	.enable(1'b1),
-    .clear(1'b0),
+    .clear(idex_clear_wire),
 	.datainput({
+		ifid_adder_pc_wire,
 		control_mux_wire,
 		ifid_pc_wire,
 		readdata1_wire, 
@@ -418,6 +426,7 @@ pipeline_idex
 	}),
 	
 	.dataoutput({
+		idex_adder_pc_wire,
 		idex_address_sel_wire,
 		idex_jal_wire,
 		idex_alu_pc_sel_wire,
@@ -442,15 +451,16 @@ pipeline_idex
 
 registerpipeline
 #(
-	.n(115)
+	.n(115+32)
 )
 pipeline_exmem
 (
 	.clk(clk_wire),
 	.reset(reset),
 	.enable(1'b1),
-    .clear(1'b0),
+    .clear(exmem_clear_wire),
 	.datainput({
+		idex_adder_pc_wire,
 		idex_memread_wire,
 		idex_memwrite_wire,
 		idex_address_sel_wire,
@@ -471,6 +481,7 @@ pipeline_exmem
 	}),
 	
 	.dataoutput({
+		exmem_adder_pc_wire,
 		exmem_memread_wire,
 		exmem_memwrite_wire,
 		exmem_address_sel_wire,
@@ -493,7 +504,7 @@ pipeline_exmem
 
 registerpipeline
 #(
-	.n(72)
+	.n(72+32)
 )
 pipeline_memwb
 (
@@ -502,6 +513,7 @@ pipeline_memwb
 	.enable(1'b1),
     .clear(1'b0),
 	.datainput({
+		exmem_adder_pc_wire,
 		exmem_memtoreg_wire, 
 		exmem_regwrite_wire, 
 		received_data, 
@@ -510,6 +522,7 @@ pipeline_memwb
 	}),
 	
 	.dataoutput({
+		memwb_adder_pc_wire,
 		memewb_memtoreg_wire, 
 		memewb_regwrite_wire ,
 		memwb_received_data, 
@@ -524,13 +537,23 @@ hazardinit
 hazard
 (
     .in_idex_memread(idex_memread_wire),
+	.in_branch_jal(
+		((exmem_zero_wire & (exmem_brancheq_wire | exmem_branchge_wire)) |
+		(~exmem_zero_wire & exmem_branchne_wire) |
+		(exmem_alessb_wire & exmem_branchlt_wire) |
+		(~exmem_alessb_wire & exmem_branchge_wire)) |
+		exmem_jal_wire
+	),
     .in_ifid_rs1(ifid_intruction_wire[19:15]),
     .in_ifid_rs2(ifid_intruction_wire[24:20]),
     .in_idex_rd(ifid_intruction_wire[11:7]),
 
     .pcwrite(hazard_pcwrite_wire),
     .ifidwrite(hazard_ifidwrite_wire),
-    .controlsel(hazard_controlsel_wire)
+    .controlsel(hazard_controlsel_wire),
+	.ifid_clear(ifid_clear_wire),
+    .idex_clear(idex_clear_wire),
+    .exmem_clear(exmem_clear_wire)
 );
 
 //******************************************************************/
@@ -541,6 +564,7 @@ forwarding
 (
     .in_exmem_regwrite(exmem_regwrite_wire),
     .in_memwb_regwrite(memewb_regwrite_wire),
+	.in_idex_upcode(idex_intruction_wire[6:0]),
     .in_idex_rs1(idex_intruction_wire[19:15]),
     .in_idex_rs2(idex_intruction_wire[24:20]),
     .in_exmem_rd(exmem_intruction_wire),

@@ -17,12 +17,11 @@ always@(negedge reset or negedge clk) begin
 	if(!reset)
 		dataoutput <= 0;
 	else begin
-		if(enable) begin
-			if(clear)
-                dataoutput <= 0;
-            else    
-                dataoutput<=datainput;
-
+		if(enable) begin 
+				if(clear)
+					dataoutput <= 0;
+				else
+					dataoutput<=datainput;
         end
     end
 end

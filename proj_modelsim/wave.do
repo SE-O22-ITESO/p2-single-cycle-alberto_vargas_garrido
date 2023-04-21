@@ -32,11 +32,11 @@ add wave -noupdate -divider {New Divider}
 add wave -noupdate /RISC_V_processor_TB/top/core/arithmeticlogicunit/aluoperation
 add wave -noupdate /RISC_V_processor_TB/top/core/arithmeticlogicunit/a
 add wave -noupdate /RISC_V_processor_TB/top/core/arithmeticlogicunit/b
-add wave -noupdate /RISC_V_processor_TB/top/core/arithmeticlogicunit/zero
-add wave -noupdate /RISC_V_processor_TB/top/core/arithmeticlogicunit/alessb
 add wave -noupdate /RISC_V_processor_TB/top/core/arithmeticlogicunit/aluresult
 add wave -noupdate /RISC_V_processor_TB/top/core/controlunit/aluop
 add wave -noupdate /RISC_V_processor_TB/top/core/alu_control/aluoperation
+add wave -noupdate /RISC_V_processor_TB/top/core/arithmeticlogicunit/zero
+add wave -noupdate /RISC_V_processor_TB/top/core/arithmeticlogicunit/alessb
 add wave -noupdate -divider {New Divider}
 add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/in_exmem_regwrite
 add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/in_memwb_regwrite
@@ -46,8 +46,26 @@ add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/in_exmem_rd
 add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/in_memwb_rd
 add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/out_forwarda_sel
 add wave -noupdate /RISC_V_processor_TB/top/core/forwarding/out_forwardb_sel
+add wave -noupdate -divider {New Divider}
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarda_mux/selector
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarda_mux/mux_data0
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarda_mux/mux_data1
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarda_mux/mux_data2
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarda_mux/mux_data3
+add wave -noupdate /RISC_V_processor_TB/top/core/forwarda_mux/mux_output
+add wave -noupdate -divider {New Divider}
+add wave -noupdate /RISC_V_processor_TB/top/core/forwardb_mux/selector
+add wave -noupdate /RISC_V_processor_TB/top/core/forwardb_mux/mux_data0
+add wave -noupdate /RISC_V_processor_TB/top/core/forwardb_mux/mux_data1
+add wave -noupdate /RISC_V_processor_TB/top/core/forwardb_mux/mux_data2
+add wave -noupdate /RISC_V_processor_TB/top/core/forwardb_mux/mux_data3
+add wave -noupdate /RISC_V_processor_TB/top/core/forwardb_mux/mux_output
+add wave -noupdate -divider {New Divider}
+add wave -noupdate /RISC_V_processor_TB/top/core/pc/enable
+add wave -noupdate /RISC_V_processor_TB/top/core/pc/newpc
+add wave -noupdate /RISC_V_processor_TB/top/core/pc/pcvalue
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {53845 ps} 0}
+WaveRestoreCursors {{Cursor 1} {193329 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 395
 configure wave -valuecolwidth 97
@@ -63,4 +81,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {0 ps} {152464 ps}
+WaveRestoreZoom {106722 ps} {259186 ps}
