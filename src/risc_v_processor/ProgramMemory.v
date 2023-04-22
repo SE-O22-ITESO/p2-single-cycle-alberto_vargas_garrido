@@ -31,7 +31,7 @@ wire [(data_width-1):0] realaddress;
 
 	initial
 	begin
-		$readmemh("../assembly_code/simple_code.txt", rom);
+		$readmemh("../assembly_code/tarea3_a.txt", rom);
 		//$readmemh("../assembly_code/Taera_GPIO.txt", rom);
 	end
 

@@ -64,8 +64,11 @@ add wave -noupdate -divider {New Divider}
 add wave -noupdate /RISC_V_processor_TB/top/core/pc/enable
 add wave -noupdate /RISC_V_processor_TB/top/core/pc/newpc
 add wave -noupdate /RISC_V_processor_TB/top/core/pc/pcvalue
+add wave -noupdate -divider {New Divider}
+add wave -noupdate -expand /RISC_V_processor_TB/top/datamemory/ram
+add wave -noupdate /RISC_V_processor_TB/top/datamemory/readdata
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {193329 ps} 0}
+WaveRestoreCursors {{Cursor 1} {275466 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 395
 configure wave -valuecolwidth 97
@@ -81,4 +84,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {106722 ps} {259186 ps}
+WaveRestoreZoom {9567798920 ps} {9568038171 ps}
