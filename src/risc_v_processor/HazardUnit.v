@@ -16,7 +16,8 @@ module hazardinit
 
 always @(*) begin
     if(
-        in_idex_memread
+        (!in_branch_jal)
+        && in_idex_memread
         && ((in_idex_rd == in_ifid_rs1 
         || in_idex_rd == in_ifid_rs2))
     )begin

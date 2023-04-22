@@ -564,6 +564,8 @@ forwarding
 (
     .in_exmem_regwrite(exmem_regwrite_wire),
     .in_memwb_regwrite(memewb_regwrite_wire),
+	.in_memeread(idex_memread_wire),
+	.in_memwrite(idex_memwrite_wire),
 	.in_idex_upcode(idex_intruction_wire[6:0]),
     .in_idex_rs1(idex_intruction_wire[19:15]),
     .in_idex_rs2(idex_intruction_wire[24:20]),

@@ -2,6 +2,8 @@ module forwardingunit
 (
     input in_exmem_regwrite,
     input in_memwb_regwrite,
+    input in_memeread,
+    input in_memwrite,
     input [6:0] in_idex_upcode,
     input [4:0] in_idex_rs1,
     input [4:0] in_idex_rs2,
@@ -35,6 +37,7 @@ always @(*) begin
 
     if(
         (in_idex_upcode != 7'b0010011)
+        && (!in_memwrite)
         && in_exmem_regwrite
         && (in_exmem_rd != 0)
         && (in_exmem_rd == in_idex_rs2)
@@ -44,6 +47,7 @@ always @(*) begin
     else if(
         (in_idex_upcode != 7'b0010011) 
         && in_memwb_regwrite
+        && (!in_memeread)
         && (in_memwb_rd != 0)
         && !(in_exmem_regwrite && (in_exmem_rd != 0)
         && (in_exmem_rd == in_idex_rs2))
