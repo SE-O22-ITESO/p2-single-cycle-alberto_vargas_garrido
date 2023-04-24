@@ -67,8 +67,23 @@ add wave -noupdate /RISC_V_processor_TB/top/core/pc/pcvalue
 add wave -noupdate -divider {New Divider}
 add wave -noupdate -expand /RISC_V_processor_TB/top/datamemory/ram
 add wave -noupdate /RISC_V_processor_TB/top/datamemory/readdata
+add wave -noupdate -divider {New Divider}
+add wave -noupdate /RISC_V_processor_TB/top/core/forwardwd_mux/selector
+add wave -noupdate /RISC_V_processor_TB/top/core/forwardwd_mux/mux_data0
+add wave -noupdate /RISC_V_processor_TB/top/core/forwardwd_mux/mux_data1
+add wave -noupdate /RISC_V_processor_TB/top/core/forwardwd_mux/mux_data2
+add wave -noupdate /RISC_V_processor_TB/top/core/forwardwd_mux/mux_data3
+add wave -noupdate /RISC_V_processor_TB/top/core/forwardwd_mux/mux_output
+add wave -noupdate -divider {New Divider}
+add wave -noupdate /RISC_V_processor_TB/top/core/intruction
+add wave -noupdate /RISC_V_processor_TB/top/core/received_data
+add wave -noupdate /RISC_V_processor_TB/top/core/memwrite
+add wave -noupdate /RISC_V_processor_TB/top/core/memread
+add wave -noupdate /RISC_V_processor_TB/top/core/data_address
+add wave -noupdate /RISC_V_processor_TB/top/core/writedata
+add wave -noupdate /RISC_V_processor_TB/top/core/pc_address
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {275466 ps} 0}
+WaveRestoreCursors {{Cursor 1} {1196561536 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 395
 configure wave -valuecolwidth 97
@@ -84,4 +99,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {9567798920 ps} {9568038171 ps}
+WaveRestoreZoom {1196434367 ps} {1197047553 ps}

@@ -93,8 +93,12 @@ wire alessb_wire;
 
 wire [31:0] adder_pc_wire;
 
+////Forward////
+wire [31:0] idex_forwardwd_mux_wire;
 wire [31:0] forwarda_mux_wire;
 wire [31:0] forwardb_mux_wire;
+wire [31:0] forwardwd_mux_wire;
+wire [1:0] out_forwardwd_sel_wire;
 
 ////Hazard////
 wire ifid_clear_wire;
@@ -326,6 +330,22 @@ forwardb_mux
 
 );
 
+multiplexer4to1
+#(
+	.nbits(32)
+)
+forwardwd_mux
+(
+	.selector(out_forwardwd_sel_wire),
+	.mux_data0(idex_readdata2_wire),
+	.mux_data1(aluout_mux_wire),
+	.mux_data2(exmem_aluresult_wire),
+	.mux_data3(),
+	
+	.mux_output(forwardwd_mux_wire)
+
+);
+
 multiplexer2to1
 #(
 	.nbits(19)
@@ -407,7 +427,7 @@ pipeline_ifid
 
 registerpipeline
 #(
-	.n(179+32)
+	.n(179+32+32)
 )
 pipeline_idex
 (
@@ -422,7 +442,8 @@ pipeline_idex
 		readdata1_wire, 
 		readdata2_wire, 
 		immediateextend_wire,
-		ifid_intruction_wire
+		ifid_intruction_wire,
+		forwardwd_mux_wire
 	}),
 	
 	.dataoutput({
@@ -445,13 +466,14 @@ pipeline_idex
 		idex_readdata1_wire, 
 		idex_readdata2_wire, 
 		idex_immediateextend_wire,
-		idex_intruction_wire
+		idex_intruction_wire,
+		idex_forwardwd_mux_wire
 	})
 );
 
 registerpipeline
 #(
-	.n(115+32)
+	.n(115)
 )
 pipeline_exmem
 (
@@ -476,7 +498,7 @@ pipeline_exmem
 		zero_wire, 
 		alessb_wire, 
 		aluresult_wire,
-		idex_readdata2_wire,
+		//idex_readdata2_wire,
 		idex_intruction_wire[11:7]
 	}),
 	
@@ -497,7 +519,7 @@ pipeline_exmem
 		exmem_zero_wire, 
 		exmem_alessb_wire, 
 		exmem_aluresult_wire,
-		exmem_readdata2_wire, 
+		//exmem_readdata2_wire, 
 		exmem_intruction_wire
 	})
 );
@@ -573,7 +595,8 @@ forwarding
     .in_memwb_rd(memwb_intruction_wire),
 
     .out_forwarda_sel(out_forwarda_sel_wire),
-    .out_forwardb_sel(out_forwardb_sel_wire)
+    .out_forwardb_sel(out_forwardb_sel_wire),
+	.out_forwardwd_sel(out_forwardwd_sel_wire)
 );
 
 //******************************************************************/
@@ -634,7 +657,7 @@ arithmeticlogicunit
 
 assign memread = exmem_memread_wire;
 assign memwrite = exmem_memwrite_wire;
-assign writedata = exmem_readdata2_wire;
+assign writedata = idex_forwardwd_mux_wire;
 assign pc_address = pc_wire;
 assign data_address = address_mux_wire;
 

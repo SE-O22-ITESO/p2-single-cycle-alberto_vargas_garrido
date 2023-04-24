@@ -11,7 +11,8 @@ module forwardingunit
     input [4:0] in_memwb_rd,
 
     output reg[1:0] out_forwarda_sel,
-    output reg[1:0] out_forwardb_sel
+    output reg[1:0] out_forwardb_sel,
+    output reg[1:0] out_forwardwd_sel
 );
 
 always @(*) begin
@@ -37,7 +38,7 @@ always @(*) begin
 
     if(
         (in_idex_upcode != 7'b0010011)
-        && (!in_memwrite)
+        && (!(in_memeread || in_memwrite))
         && in_exmem_regwrite
         && (in_exmem_rd != 0)
         && (in_exmem_rd == in_idex_rs2)
@@ -47,7 +48,7 @@ always @(*) begin
     else if(
         (in_idex_upcode != 7'b0010011) 
         && in_memwb_regwrite
-        && (!in_memeread)
+        && (!(in_memeread || in_memwrite))
         && (in_memwb_rd != 0)
         && !(in_exmem_regwrite && (in_exmem_rd != 0)
         && (in_exmem_rd == in_idex_rs2))
@@ -55,8 +56,24 @@ always @(*) begin
     ) begin
         out_forwardb_sel = 2'b01;
     end
+    else if(
+        (in_memwrite || in_memeread)
+        && (in_exmem_rd == in_idex_rs2)
+    ) begin
+        out_forwardb_sel = 2'b00;
+        out_forwardwd_sel = 2'b10;
+    end
+    else if(
+        (in_memwrite || in_memeread)
+        && !(in_exmem_rd == in_idex_rs2)
+        && (in_memwb_rd == in_idex_rs2)
+    ) begin
+        out_forwardb_sel = 2'b00;
+        out_forwardwd_sel = 2'b01;
+    end
     else begin
         out_forwardb_sel = 2'b00;
+        out_forwardwd_sel = 2'b00;
     end
 
 end

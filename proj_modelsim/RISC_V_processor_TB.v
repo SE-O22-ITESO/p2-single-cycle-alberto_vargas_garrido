@@ -132,10 +132,10 @@ begin
 	//#(c_CLOCK_PERIOD_NS) transmit	  = 1;	
 	//#(c_CLOCK_PERIOD_NS) transmit	  = 0;
 
-	//#(80*c_BIT_PERIOD);
+	#(80*c_BIT_PERIOD);
 	
-	//@(posedge clk);
-	//UART_WRITE_BYTE(8'h06);
+	@(posedge clk);
+	UART_WRITE_BYTE(8'h06);
 	
 	#(80*c_BIT_PERIOD);
 	$stop;	
