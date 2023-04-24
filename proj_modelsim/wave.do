@@ -82,8 +82,15 @@ add wave -noupdate /RISC_V_processor_TB/top/core/memread
 add wave -noupdate /RISC_V_processor_TB/top/core/data_address
 add wave -noupdate /RISC_V_processor_TB/top/core/writedata
 add wave -noupdate /RISC_V_processor_TB/top/core/pc_address
+add wave -noupdate -divider {New Divider}
+add wave -noupdate /RISC_V_processor_TB/top/top_memory_system/mux_new_address/selector
+add wave -noupdate /RISC_V_processor_TB/top/top_memory_system/mux_new_address/mux_data0
+add wave -noupdate /RISC_V_processor_TB/top/top_memory_system/mux_new_address/mux_data1
+add wave -noupdate /RISC_V_processor_TB/top/top_memory_system/mux_new_address/mux_data2
+add wave -noupdate /RISC_V_processor_TB/top/top_memory_system/mux_new_address/mux_data3
+add wave -noupdate /RISC_V_processor_TB/top/top_memory_system/mux_new_address/mux_output
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {1196561536 ps} 0}
+WaveRestoreCursors {{Cursor 1} {1196558194 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 395
 configure wave -valuecolwidth 97
@@ -99,4 +106,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {1196434367 ps} {1197047553 ps}
+WaveRestoreZoom {1196405730 ps} {1196710658 ps}

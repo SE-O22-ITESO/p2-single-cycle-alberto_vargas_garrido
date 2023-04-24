@@ -44,6 +44,7 @@ always @(*) begin
         && (in_exmem_rd == in_idex_rs2)
     ) begin
         out_forwardb_sel = 2'b10;
+		  out_forwardwd_sel = 2'b00;
     end
     else if(
         (in_idex_upcode != 7'b0010011) 
@@ -55,6 +56,7 @@ always @(*) begin
         && (in_memwb_rd == in_idex_rs2)
     ) begin
         out_forwardb_sel = 2'b01;
+		  out_forwardwd_sel = 2'b00;
     end
     else if(
         (in_memwrite || in_memeread)

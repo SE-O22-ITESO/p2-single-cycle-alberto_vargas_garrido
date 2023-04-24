@@ -12,14 +12,27 @@ module memory_x_control
 );
 
 always@(address, in_write_en) begin
-    // if((address >= 'h00400000) && (address < 'h10000000)) begin
-    //     data_sel = 2'h0;
-    //     address_sel = 2'h0;
-    //     out_write_en = 3'b000;
-	// end
-    if((address <= 'h7fffeffc) && (address > 'h10011000)) begin
+    if(
+        (address <= 'h7fffeffc) 
+        && (address >= 'h10040004)
+    ) begin
         data_sel = 2'h1;
         address_sel = 2'h1;
+        if(in_write_en)
+            out_write_en = 3'b001;
+        else
+            out_write_en = 3'b000;
+    end
+    else if(
+        (address <= 'h10040000) 
+        && (address >= 'h10010000)
+        && (address != 'h10010024)
+        && (address != 'h10010028)
+        && (address != 'h1001002C)
+        && (address != 'h10010030)
+    ) begin
+        data_sel = 2'h1;
+        address_sel = 2'h0;
         if(in_write_en)
             out_write_en = 3'b001;
         else
