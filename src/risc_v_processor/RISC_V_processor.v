@@ -340,7 +340,7 @@ forwardwd_mux
 	.mux_data0(idex_readdata2_wire),
 	.mux_data1(aluout_mux_wire),
 	.mux_data2(exmem_aluresult_wire),
-	.mux_data3(),
+	.mux_data3(received_data),
 	
 	.mux_output(forwardwd_mux_wire)
 
@@ -559,6 +559,7 @@ hazardinit
 hazard
 (
     .in_idex_memread(idex_memread_wire),
+	.in_idex_memwrite(idex_memwrite_wire),
 	.in_branch_jal(
 		((exmem_zero_wire & (exmem_brancheq_wire | exmem_branchge_wire)) |
 		(~exmem_zero_wire & exmem_branchne_wire) |
@@ -588,6 +589,7 @@ forwarding
     .in_memwb_regwrite(memewb_regwrite_wire),
 	.in_memeread(idex_memread_wire),
 	.in_memwrite(idex_memwrite_wire),
+	.in_exmem_memeread(exmem_memread_wire),
 	.in_idex_upcode(idex_intruction_wire[6:0]),
     .in_idex_rs1(idex_intruction_wire[19:15]),
     .in_idex_rs2(idex_intruction_wire[24:20]),
