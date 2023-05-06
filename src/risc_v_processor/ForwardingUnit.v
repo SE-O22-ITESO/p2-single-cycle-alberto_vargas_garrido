@@ -4,7 +4,6 @@ module forwardingunit
     input in_memwb_regwrite,
     input in_memeread,
     input in_memwrite,
-    input in_exmem_memeread,
     input [6:0] in_idex_upcode,
     input [4:0] in_idex_rs1,
     input [4:0] in_idex_rs2,
@@ -60,23 +59,14 @@ always @(*) begin
 		out_forwardwd_sel = 2'b00;
     end
     else if(
-        (in_memwrite && in_exmem_memeread)
-        && (in_exmem_rd == in_idex_rs2)
-    ) begin
-        out_forwardb_sel = 2'b00;
-        out_forwardwd_sel = 2'b11;
-    end
-    else if(
-        !(in_memwrite && in_exmem_memeread)
-        && (in_memwrite || in_memeread)
+        (in_memwrite || in_memeread)
         && (in_exmem_rd == in_idex_rs2)
     ) begin
         out_forwardb_sel = 2'b00;
         out_forwardwd_sel = 2'b10;
     end
     else if(
-        !(in_memwrite && in_exmem_memeread)
-        && (in_memwrite || in_memeread)
+        (in_memwrite || in_memeread)
         && !(in_exmem_rd == in_idex_rs2)
         && (in_memwb_rd == in_idex_rs2)
     ) begin

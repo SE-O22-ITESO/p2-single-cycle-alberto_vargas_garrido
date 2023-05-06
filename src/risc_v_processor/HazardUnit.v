@@ -1,7 +1,6 @@
 module hazardinit
 (
     input in_idex_memread,
-    input in_idex_memwrite,
     input in_branch_jal,
     input [4:0] in_ifid_rs1,
     input [4:0] in_ifid_rs2,
@@ -18,8 +17,7 @@ module hazardinit
 always @(*) begin
     if(
         (!in_branch_jal)
-        && (in_idex_memread
-        || in_idex_memwrite)
+        && in_idex_memread
         && ((in_idex_rd == in_ifid_rs1 
         || in_idex_rd == in_ifid_rs2))
     )begin
