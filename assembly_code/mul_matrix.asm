@@ -5,6 +5,8 @@ main:
 	addi t2, zero, 20
 	addi s0, zero, 4
 	addi s1, zero, 4
+	li s2, 5208
+	
 	li a1, 0x7fffeffc
 	
 	addi a2, a1, -64
@@ -47,19 +49,18 @@ Wait4:
 	lw t0, -4(a0)
 	andi t0, t0, 0x400
 	srli t0, t0, 10
-	bne t0, zero, Wait4	
+	bne t0, zero, Wait4
+Wait5:
+	addi s2, s2, -1
+	bne s2, zero, Wait5
+	li s2, 5208
+		
 	bne zero, s1, Calculate
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
-nop
+	add a1, zero, zero
+	add a2, zero, zero
+	li sp, 0x7fffeffc
+	
+	jal main
 nop
 nop
 nop

@@ -352,6 +352,8 @@ R0
 R0
 R0
 R0
+R0
+R0
 !s11f vlog 2021.2 2021.04, Apr 14 2021
 13
 !s112 1.1
@@ -468,10 +470,10 @@ n@_opt7
 R5
 R1
 T_opt8
-!s110 1683400524
-V3V^eSG:LCGE7_iSOSYZYK1
+!s110 1683428119
+V6zVa?;2:0K=OF>b>hXTWz0
 R2
-=1-000ae431a4f1-6456a74c-afddf-238eb
+=1-000ae431a4f1-64571317-74deb-29e0
 !s124 OEM10U90 
 R3
 R4
@@ -479,7 +481,7 @@ n@_opt8
 R5
 R1
 vadder32bits
-Z8 !s110 1683401191
+Z8 !s110 1683447197
 !i10b 1
 !s100 U]UXnUdIOJnn<RRWeGGhW1
 IIlNCgZ4WiAWLVF07UVbKa0
@@ -487,14 +489,14 @@ Z9 d/home/alberto/Documents/Documents/Works/RISC-V/projects/p2/proj_modelsim
 Z10 w1681439060
 8../src/risc_v_processor/Adder32bits.v
 F../src/risc_v_processor/Adder32bits.v
-!i122 15016
+!i122 15401
 L0 13 16
 Z11 VDg1SIo80bB@j0V0VzS_@n1
 Z12 OL;L;2021.2;73
 r1
 !s85 0
 31
-Z13 !s108 1683401191.000000
+Z13 !s108 1683447197.000000
 !s107 ../src/risc_v_processor/Adder32bits.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/Adder32bits.v|
 !i113 0
@@ -509,7 +511,7 @@ R9
 Z15 w1681439329
 8../src/risc_v_processor/ALU.v
 F../src/risc_v_processor/ALU.v
-!i122 15017
+!i122 15402
 L0 20 56
 R11
 R12
@@ -531,7 +533,7 @@ R9
 R15
 8../src/risc_v_processor/ALUControl.v
 F../src/risc_v_processor/ALUControl.v
-!i122 15018
+!i122 15403
 L0 15 84
 R11
 R12
@@ -553,7 +555,7 @@ R9
 R10
 8../src/risc_v_processor/ANDGate.v
 F../src/risc_v_processor/ANDGate.v
-!i122 15019
+!i122 15404
 L0 13 11
 R11
 R12
@@ -568,7 +570,7 @@ R14
 R4
 n@a@n@d@gate
 vclk_div
-Z16 !s110 1683401192
+Z16 !s110 1683447198
 !i10b 1
 !s100 m@a6Xn^>j3[zXdYBMe0DY0
 I1okSaD0RYJXb@GPT`854i0
@@ -576,14 +578,14 @@ R9
 R10
 8../src/uart/clk_div.v
 F../src/uart/clk_div.v
-!i122 15038
+!i122 15423
 L0 14 65
 R11
 R12
 r1
 !s85 0
 31
-Z17 !s108 1683401192.000000
+Z17 !s108 1683447198.000000
 !s107 ../src/uart/clk_div.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/uart/clk_div.v|
 !i113 0
@@ -598,7 +600,7 @@ R9
 Z18 w1682309352
 8../src/risc_v_processor/Control.v
 F../src/risc_v_processor/Control.v
-!i122 15020
+!i122 15405
 L0 14 98
 R11
 R12
@@ -620,7 +622,7 @@ R9
 R10
 8../src/uart/counter.v
 F../src/uart/counter.v
-!i122 15043
+!i122 15428
 L0 14 52
 R11
 R12
@@ -642,7 +644,7 @@ R9
 R10
 8../src/risc_v_processor/DataMemory.v
 F../src/risc_v_processor/DataMemory.v
-!i122 15021
+!i122 15406
 Z19 L0 13 27
 R11
 R12
@@ -664,7 +666,7 @@ R9
 R10
 8../src/risc_v_processor/DecoderRegisterFile.v
 F../src/risc_v_processor/DecoderRegisterFile.v
-!i122 15022
+!i122 15407
 L0 12 47
 R11
 R12
@@ -686,7 +688,7 @@ R9
 R10
 8../src/uart/device_uart_rx.v
 F../src/uart/device_uart_rx.v
-!i122 15044
+!i122 15429
 L0 16 168
 R11
 R12
@@ -708,7 +710,7 @@ R9
 R10
 8../src/uart/device_uart_tx.v
 F../src/uart/device_uart_tx.v
-!i122 15045
+!i122 15430
 L0 14 168
 R11
 R12
@@ -722,7 +724,7 @@ R17
 R14
 R4
 vforwardingunit
-R8
+R16
 !i10b 1
 !s100 ZB1cA5QzSD`H1]cUNI3PQ2
 I?JSJ^BYW6X4O;U^6mzSzK1
@@ -730,14 +732,14 @@ R9
 w1683400518
 8../src/risc_v_processor/ForwardingUnit.v
 F../src/risc_v_processor/ForwardingUnit.v
-!i122 15036
+!i122 15421
 L0 1 83
 R11
 R12
 r1
 !s85 0
 31
-R13
+R17
 !s107 ../src/risc_v_processor/ForwardingUnit.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/ForwardingUnit.v|
 !i113 0
@@ -752,7 +754,7 @@ R9
 R10
 8../src/uart/fsm_uart_rx.v
 F../src/uart/fsm_uart_rx.v
-!i122 15039
+!i122 15424
 L0 15 230
 R11
 R12
@@ -774,7 +776,7 @@ R9
 R10
 8../src/uart/fsm_uart_tx.v
 F../src/uart/fsm_uart_tx.v
-!i122 15040
+!i122 15425
 L0 15 179
 R11
 R12
@@ -796,7 +798,7 @@ R9
 R15
 8../src/gpio/gpio_top.v
 F../src/gpio/gpio_top.v
-!i122 15033
+!i122 15418
 L0 1 37
 R11
 R12
@@ -818,14 +820,14 @@ R9
 w1683398541
 8../src/risc_v_processor/HazardUnit.v
 F../src/risc_v_processor/HazardUnit.v
-!i122 15037
+!i122 15422
 L0 1 49
 R11
 R12
 r1
 !s85 0
 31
-R13
+R17
 !s107 ../src/risc_v_processor/HazardUnit.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/HazardUnit.v|
 !i113 0
@@ -840,7 +842,7 @@ R9
 w1682325014
 8../src/memory_x_controller/memory_x_control.v
 F../src/memory_x_controller/memory_x_control.v
-!i122 15047
+!i122 15432
 L0 1 68
 R11
 R12
@@ -862,7 +864,7 @@ R9
 R10
 8../src/risc_v_processor/Multiplexer2to1.v
 F../src/risc_v_processor/Multiplexer2to1.v
-!i122 15023
+!i122 15408
 L0 13 21
 R11
 R12
@@ -884,7 +886,7 @@ R9
 R10
 8../src/risc_v_processor/Multiplexer4to1.v
 F../src/risc_v_processor/Multiplexer4to1.v
-!i122 15024
+!i122 15409
 R19
 R11
 R12
@@ -906,7 +908,7 @@ R9
 R10
 8../src/risc_v_processor/MUXRegisterFile.v
 F../src/risc_v_processor/MUXRegisterFile.v
-!i122 15025
+!i122 15410
 L0 2 82
 R11
 R12
@@ -928,7 +930,7 @@ R9
 R10
 8../src/risc_v_processor/PC_Register.v
 F../src/risc_v_processor/PC_Register.v
-!i122 15026
+!i122 15411
 L0 15 23
 R11
 R12
@@ -950,7 +952,7 @@ R9
 R10
 8../src/uart/piso_lsb.v
 F../src/uart/piso_lsb.v
-!i122 15041
+!i122 15426
 Z20 L0 1 25
 R11
 R12
@@ -972,7 +974,7 @@ R9
 w1683276387
 8../src/risc_v_processor/ProgramMemory.v
 F../src/risc_v_processor/ProgramMemory.v
-!i122 15027
+!i122 15412
 L0 15 29
 R11
 R12
@@ -994,7 +996,7 @@ R9
 R10
 8../src/risc_v_processor/Register.v
 F../src/risc_v_processor/Register.v
-!i122 15028
+!i122 15413
 L0 12 23
 R11
 R12
@@ -1008,7 +1010,7 @@ R13
 R14
 R4
 vregister_sp
-R8
+R16
 !i10b 1
 !s100 OC;KcLF8mzZ?LR=JVcAhQ0
 I`FSQf^Zba9?QfBEa7KXP02
@@ -1016,7 +1018,7 @@ R9
 R10
 8../src/risc_v_processor/Register_sp.v
 F../src/risc_v_processor/Register_sp.v
-!i122 15034
+!i122 15419
 L0 1 23
 R11
 R12
@@ -1038,7 +1040,7 @@ R9
 R10
 8../src/risc_v_processor/RegisterFile.v
 F../src/risc_v_processor/RegisterFile.v
-!i122 15029
+!i122 15414
 L0 15 513
 R11
 R12
@@ -1052,7 +1054,7 @@ R13
 R14
 R4
 vregisterpipeline
-R8
+R16
 !i10b 1
 !s100 10GFlO]6GbRiWNodR6kCG0
 I:>JDjf@eTgGO753bU=AFz1
@@ -1060,14 +1062,14 @@ R9
 R18
 8../src/risc_v_processor/RegisterPipeline.v
 F../src/risc_v_processor/RegisterPipeline.v
-!i122 15035
+!i122 15420
 L0 1 28
 R11
 R12
 r1
 !s85 0
 31
-R13
+R17
 !s107 ../src/risc_v_processor/RegisterPipeline.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|../src/risc_v_processor/RegisterPipeline.v|
 !i113 0
@@ -1105,7 +1107,7 @@ R9
 w1683400276
 8../src/risc_v_processor/RISC_V_processor.v
 F../src/risc_v_processor/RISC_V_processor.v
-!i122 15014
+!i122 15399
 L0 12 654
 R11
 R12
@@ -1122,14 +1124,14 @@ n@r@i@s@c_@v_processor
 vRISC_V_processor_TB
 R8
 !i10b 1
-!s100 N9W7f?V<CbnP`MNPngBYf3
-IRDo8B^4fj]h^271Z951BN2
+!s100 dYY6okV1MZCFb`HMfHbni0
+IJ>WWeKRZ2JLOF@D;R5E^d0
 R9
-w1683187999
+w1683428104
 8./RISC_V_processor_TB.v
 F./RISC_V_processor_TB.v
-!i122 15015
-L0 16 150
+!i122 15400
+L0 16 194
 R11
 R12
 r1
@@ -1151,7 +1153,7 @@ R9
 R15
 8../src/Risc_V_Single_Cycle.v
 F../src/Risc_V_Single_Cycle.v
-!i122 15032
+!i122 15417
 L0 1 144
 R11
 R12
@@ -1174,7 +1176,7 @@ R9
 R10
 8../src/risc_v_processor/ShiftLeft2.v
 F../src/risc_v_processor/ShiftLeft2.v
-!i122 15030
+!i122 15415
 L0 12 10
 R11
 R12
@@ -1197,7 +1199,7 @@ R9
 R15
 8../src/risc_v_processor/SignExtend.v
 F../src/risc_v_processor/SignExtend.v
-!i122 15031
+!i122 15416
 L0 14 79
 R11
 R12
@@ -1219,7 +1221,7 @@ R9
 R10
 8../src/uart/sipo_lsb.v
 F../src/uart/sipo_lsb.v
-!i122 15042
+!i122 15427
 R20
 R11
 R12
@@ -1241,7 +1243,7 @@ R9
 w1682324835
 8../src/memory_x_controller/top_memory_x.v
 F../src/memory_x_controller/top_memory_x.v
-!i122 15048
+!i122 15433
 L0 1 64
 R11
 R12
@@ -1263,7 +1265,7 @@ R9
 R10
 8../src/uart/uart_top.v
 F../src/uart/uart_top.v
-!i122 15046
+!i122 15431
 L0 16 73
 R11
 R12
